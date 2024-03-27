@@ -23,6 +23,33 @@ function Index() {
           <img src={wave} alt='wave'  className='wave'/>
           </div>
         </div>
+
+
+        <div className='trend'>
+          <div className='label'>
+            <h2>Trending:</h2>
+          </div>
+        </div>
+        <div className='cardctn'>
+            <div className='card'>
+
+            </div>
+            <div className='card'>
+
+            </div>
+            <div className='card'>
+
+            </div>
+            <div className='card'>
+
+            </div>
+            <div className='card'>
+
+            </div>
+            <div className='card'>
+
+            </div>
+          </div>
     </div>
   )
 }
