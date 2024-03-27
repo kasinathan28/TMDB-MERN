@@ -1,5 +1,97 @@
-.navbar{
-    background: #000;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.left {
+  display: flex;
+  width: auto;
+}
+
+
+
+.right {
+  width: auto;
+  display: flex;
+}
+
+.right button {
+  border-radius: 8px;
+  border: none;
+  margin: 0px 10px;
+  padding: 10px 15px;
+  background: lightgreen;
+  transition: 0.2s ease all;
+  font-size: 14px;
+}
+
+.right button:hover {
+  transform: scale(1.08);
+  background: rgb(122, 240, 122);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.line {
+  width: 25px;
+  height: 1px;
+  background-color: #fff;
+  margin: 4px;
+  transition: transform 0.3s ease;
+}
+
+.open .line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.open .line:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .right {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .show {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100px;
+    right: 0px;
+    background: #333;
+    padding: 10px;
+    animation: slideToRight 0.5s forwards;
+  }
+
+  .right.show button {
     width: 100%;
-    height: 10vh;
+    margin: 8px 0;
+  }
+}
+
+@keyframes slideToRight {
+  from {
+    right: 100%;
+  }
+  to {
+    right: 0;
+  }
 }
