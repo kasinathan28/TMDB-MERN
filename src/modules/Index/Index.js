@@ -4,6 +4,8 @@ import Navbar from '../../components/Navbar/Navbar'
 
 import wave from "../../assets/wave.svg";
 import bg from "../../assets/bg.png";
+import democard from "../../assets/democard.png";
+
 
 function Index() {
   return (
@@ -32,23 +34,49 @@ function Index() {
         </div>
         <div className='cardctn'>
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
+              <div className='desc'>
+                <p>askdjh</p>
+                <p>askdjh</p>
+              </div>
             </div>
+            
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
             </div>
+            
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
             </div>
+            
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
             </div>
+            
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
             </div>
+            
             <div className='card'>
-
+              <img src={democard} alt='cardimg' />
             </div>
+            
+            <div className='card'>
+              <img src={democard} alt='cardimg' />
+            </div>
+            
+            <div className='card'>
+              <img src={democard} alt='cardimg' />
+            </div>
+            
+            <div className='card'>
+              <img src={democard} alt='cardimg' />
+            </div>
+            
+            <div className='card'>
+              <img src={democard} alt='cardimg' />
+            </div>
+            
           </div>
     </div>
   )
