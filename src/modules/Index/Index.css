@@ -95,10 +95,10 @@
 
 .card{
   width: 30vh;
-  margin: auto;
   height: 40vh;
   background: #fff;
   border-radius: 12px;
+  margin: auto;
   padding: 12px;
 }
 
@@ -130,6 +130,11 @@
   }
   .cardctn{
     padding: 10px;
+    overflow-x: scroll;
+  }
+  .card{
+    width: 250px;
+    height: 300px;
   }
 
 }
