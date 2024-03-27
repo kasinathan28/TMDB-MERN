@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #000;
+  background: #132d46;
   color: #fff;
   padding: 10px 20px;
 }
@@ -12,8 +12,6 @@
   width: auto;
 }
 
-
-
 .right {
   width: auto;
   display: flex;
@@ -21,17 +19,17 @@
 
 .right button {
   border-radius: 8px;
-  border: none;
+  border: 1px solid #fff; 
   margin: 0px 10px;
   padding: 10px 15px;
-  background: lightgreen;
+  background-color: #132d46;
+  color: #fff;
   transition: 0.2s ease all;
   font-size: 14px;
 }
 
 .right button:hover {
   transform: scale(1.08);
-  background: rgb(122, 240, 122);
 }
 
 .hamburger {
@@ -76,7 +74,7 @@
     position: absolute;
     top: 100px;
     right: 0px;
-    background: #333;
+    background: #132d46;
     padding: 10px;
     animation: slideToRight 0.5s forwards;
   }
