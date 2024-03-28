@@ -127,7 +127,7 @@
   overflow-x: scroll;
   display: flex;
   gap: 30px;
-  padding: 10px 20px;
+  padding: 20px 20px;
   margin-bottom: 20px;
 }
 
@@ -145,6 +145,7 @@
   object-fit: cover;
   position: absolute;
 }
+
 .card {
   min-width: 30vh;
   height: 40vh;
@@ -153,6 +154,12 @@
   position: relative;
   overflow: hidden;
   margin: auto;
+  transition: 0.3s ease all;
+}
+
+.card:hover{
+  cursor: pointer;
+  transform: scale(1.03);
 }
 
 .card .desc {
@@ -161,7 +168,7 @@
   text-align: center;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: #03254196;
   color: #fff;
   padding: 2px;
   box-sizing: border-box;
@@ -171,6 +178,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 12px;
   object-position: center;
   border-radius: 12px;
 }
@@ -193,6 +201,7 @@
 }
 
 
+/* For smaller screen */
 @media screen and (max-width: 768px) {
   .main {
     width: 100%;
