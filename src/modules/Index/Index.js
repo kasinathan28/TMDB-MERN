@@ -28,7 +28,7 @@ function Index() {
             },
           }
         );
-        setMovies(response.data.results.slice(0, 15)); 
+        setMovies(response.data.results.slice(0, 12)); 
         setRandomIndex(Math.floor(Math.random() * response.data.results.length)); // Generate a random index
       } catch (error) {
         console.log("Error fetching movies:", error);
