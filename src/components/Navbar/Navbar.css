@@ -59,38 +59,69 @@
   transform: translateY(-10px) rotate(-45deg);
 }
 
-@media (max-width: 768px) {
+.closed .line {
+  transition: transform 0.3s ease;
+}
+
+.closed .line:nth-child(1) {
+  transform: translateY(0) rotate(0);
+}
+
+.closed .line:nth-child(2) {
+  opacity: 1;
+}
+
+.closed .line:nth-child(3) {
+  transform: translateY(0) rotate(0);
+}
+
+@media screen and (max-width: 768px) {
   .right {
     display: none;
   }
 
   .hamburger {
     display: flex;
+    animation: slideToLeft 0.5s forwards; /* Initial animation */
   }
 
   .show {
-    width: 60%;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 100px;
+    align-items: center;
+    top: 70px;
     right: 0px;
-    background: #132d46;
-    padding: 10px;
+    z-index: 999;
+    padding: 20px 0px;
     animation: slideToRight 0.5s forwards;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   }
 
   .right.show button {
-    width: 100%;
+    width: 90%;
     margin: 8px 0;
+    background: none;
   }
 }
 
 @keyframes slideToRight {
   from {
-    right: 100%;
+    transform: translateX(100%);
   }
   to {
-    right: 0;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideToLeft {
+  from {
+    transform: translateX(-100%); /* Start from left */
+  }
+  to {
+    transform: translateX(0%);
   }
 }

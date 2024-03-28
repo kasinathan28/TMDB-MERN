@@ -2,7 +2,7 @@ import React from 'react'
 import "./Index.css"
 import Navbar from '../../components/Navbar/Navbar'
 
-import wave from "../../assets/wave.svg";
+import wave from "../../assets/wave2.png";
 import bg from "../../assets/bg.png";
 import democard from "../../assets/democard.png";
 
@@ -30,9 +30,18 @@ function Index() {
         <div className='trend'>
           <div className='label'>
             <h2>Trending:</h2>
+           <ul>
+            <li>!</li>
+            <li>!</li>
+            <li>!</li>
+           </ul>
           </div>
         </div>
+        
         <div className='cardctn'>
+          <div className='cardctnbg'>
+          <img src={wave} alt='wave'/>
+          </div>
             <div className='card'>
               <img src={democard} alt='cardimg' />
               <div className='desc'>

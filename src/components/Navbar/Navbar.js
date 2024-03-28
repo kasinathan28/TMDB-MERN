@@ -14,6 +14,7 @@ function Navbar() {
   const handleSignup = () => {
     navigate("/join");
   }
+
   const handleLogin = () => {
     navigate("/auth");
   }
@@ -40,7 +41,7 @@ function Navbar() {
           )}
         </div>
       )}
-      <div className={`hamburger ${showMenu ? 'open' : ''}`} onClick={toggleMenu}>
+      <div className={`hamburger ${showMenu ? 'open' : 'closed'}`} onClick={toggleMenu}>
         <div className='line'></div>
         <div className='line'></div>
         <div className='line'></div>
