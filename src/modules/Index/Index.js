@@ -8,6 +8,8 @@ import bg from "../../assets/bg.png";
 function Index() {
   const [movies, setMovies] = useState([]);
   const [randomIndex, setRandomIndex] = useState(null);
+  const [activeItem, setActiveItem] = useState("Today");
+
 
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
@@ -57,9 +59,9 @@ function Index() {
       <div className="trend">
         <div className="label">
           <h2>Trending:</h2>
-          <ul>
-            <li>Today</li>
-            <li>This Week</li>
+         <ul>
+            <li className={activeItem === "Today" ? "active" : ""} onClick={() => setActiveItem("Today")}>Today</li>
+            <li className={activeItem === "This Week" ? "active" : ""} onClick={() => setActiveItem("This Week")}>This Week</li>
           </ul>
         </div>
       </div>
