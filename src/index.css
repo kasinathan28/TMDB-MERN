@@ -11,6 +11,7 @@ code {
     monospace;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 10px;
 }
+
