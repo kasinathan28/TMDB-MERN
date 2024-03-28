@@ -40,7 +40,7 @@ function Index() {
     };
 
     fetchMovies(activeItem === "Today" ? "day" : "week");
-  }, [activeItem]);
+  }, [activeItem, BASEURL, TOKEN]);
 
   // Handling the search
   const handleSearch = async () => {
@@ -66,6 +66,7 @@ function Index() {
         <img
           src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
           className="bgimg"
+          alt="Backdrop"
         />
         <div className="message">
           <h1>Welcome</h1>
