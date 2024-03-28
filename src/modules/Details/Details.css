@@ -1,139 +1,153 @@
-/* General styles */
 .detailsPage {
-    width: 100%;
-    position: relative;
-    background: #032541e1;
-  }
-  
-  .Detailsbg {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    height: 70vh;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .Detailsbg img {
-    width: 100%;
-  }
-  
-  /* Apply grayscale filter to backdrop image */
-  .backdrop-image {
-    filter: grayscale(60%);
-  }
-  
-  /* Center div styles */
-  .center {
-    width: 90%;
-    height: 90%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    overflow: auto;
-    border-radius: 20px;
-    padding: 20px;
-    gap: 40px;
-    transform: translate(-50%, -50%);
+  width: 100%;
+  position: relative;
+  background: #032541e1;
+}
+
+.Detailsbg {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 70vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.Detailsbg img {
+  width: 100%;
+}
+
+.backdrop-image {
+  filter: grayscale(60%);
+}
+
+.center {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: auto;
+  border-radius: 20px;
+  padding: 20px;
+  gap: 40px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.poster {
+  width: 30%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: 20px;
+  border-radius: 16px;
+}
+
+.poster button {
+  margin: 20px;
+  display: none;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.overview {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  color: #fff;
+  margin: auto;
+  padding: 20px 40px;
+  background: #03254171;
+  border-radius: 20px;
+  line-height: 30px;
+  font-size: 2vh;
+  overflow: auto;
+  justify-content: center;
+}
+
+.rating{
     display: flex;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  }
-  
-  /* Poster styles */
-  .poster {
-    width: 30%;
-    display: flex;
-    height: 100%;
     align-items: center;
-    gap: 20px;
-    border-radius: 16px;
-  }
+    gap: 10px;
+}
 
-  .poster button{
-    margin: 20px;
-    display: none;
-
-  }
-
-
-  
-  .poster img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  /* Overview styles */
-  .overview {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    height: 50%;
-    color: #fff;
-    margin: auto;
-    padding: 20px 40px;
-    background: #03254171;
-    border-radius: 20px;
-    line-height: 30px;
-    font-size: 2vh;
-    overflow: auto;
-    justify-content: center;
-  }
-  
-  .buttons button{
+.overview button{
+    width: 8vh;
+    height: 8vh;
     padding: 10px;
-    margin: 10px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
     color: #fff;
-    background: #032541c2;
-    border: 1px solid #03254171;
+    background: #03254171;
+    border: 2px solid #ffff;
+    border-radius: 50%;
+}
+
+
+.buttons button {
+  padding: 10px;
+  margin: 10px;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  color: #fff;
+  transition: 0.3s ease all;
+  background: #032541c2;
+  border: 1px solid #03254171;
+}
+
+.buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  .Detailsbg {
+    margin: auto;
+    height: auto;
   }
 
-
-  /* Media queries */
-  @media screen and (max-width: 768px) {
-    .Detailsbg {
-        margin: auto;
-        height: auto;
-    }
-  
-    .center {
-      height: auto;
-      flex-direction: column;
-      position: relative;
-      left: 100%;
-      top: 100%;
-      gap: 0px;
-      transform: translate(-100%, 0%);
-      border-radius: 0px;
-      background: none;
-      width: 100%;
-      padding: 0px;
-      background-color: none;
-    }
-  
-    .poster {
-      width: 50%;
-      justify-content: center;
-      height: auto;
-      margin: auto;
-    }
-    .poster button{
-        display: block;
-    }
-  
-    .overview {
-      width: auto;
-      height: auto;
-    }
-
-    .overview .buttons button{
-        display: none;
-    }
+  .center {
+    height: auto;
+    flex-direction: column;
+    position: relative;
+    left: 100%;
+    top: 100%;
+    gap: 0px;
+    transform: translate(-100%, 0%);
+    border-radius: 0px;
+    background: none;
+    width: 100%;
+    padding: 0px;
+    background-color: none;
   }
-  
+
+  .poster {
+    width: 50%;
+    justify-content: center;
+    height: auto;
+    margin: auto;
+  }
+  .poster button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overview {
+    width: auto;
+    height: auto;
+  }
+
+  .overview .buttons button {
+    display: none;
+  }
+}

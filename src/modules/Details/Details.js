@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Details.css";
 import axios from "axios";
-import { FaList, FaHeart, FaSave, FaPlay } from 'react-icons/fa';
-
+import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 
 function Details() {
   const { id } = useParams();
@@ -33,6 +32,20 @@ function Details() {
     fetchDetails();
   }, [id, TOKEN]);
 
+  const calculateBorderStyle = () => {
+    if (movieDetails && movieDetails.vote_average) {
+      const score = movieDetails.vote_average * 10; // Convert to percentage
+      if (score >= 70) {
+        return { color: "green", width: "4px" }; // Green border for high score
+      } else if (score >= 50) {
+        return { color: "yellow", width: "3px" }; // Yellow border for medium score
+      } else {
+        return { color: "red", width: "2px" }; // Red border for low score
+      }
+    }
+    return { color: "yellow", width: "3px" }; // Default color and width
+  };
+
   return (
     <div>
       <Navbar />
@@ -51,21 +64,48 @@ function Details() {
                   alt={`${movieDetails.title}`}
                 />
                 <div className="buttons">
-                  <button><FaList /></button>
-                  <button><FaHeart /></button>
-                  <button><FaSave /></button>
-                  <button><FaPlay /></button>
+                  <button>
+                    <FaList />
+                  </button>
+                  <button>
+                    <FaHeart />
+                  </button>
+                  <button>
+                    <FaSave />
+                  </button>
+                  <button>
+                    <FaPlay />
+                  </button>
                 </div>
               </div>
-
               <div className="overview">
                 <h1>{`${movieDetails.title}`}</h1>
+                <div className="rating">
+                  <button
+                    style={{
+                      borderColor: calculateBorderStyle().color,
+                      borderWidth: calculateBorderStyle().width,
+                    }}
+                  >
+                    {(movieDetails.vote_average * 10).toFixed(2)}%
+                  </button>
+
+                  <span>User Score</span>
+                </div>
                 <p>{`${movieDetails.overview}`}</p>
                 <div className="buttons">
-                  <button><FaList /></button>
-                  <button><FaHeart /></button>
-                  <button><FaSave /></button>
-                  <button><FaPlay /></button>
+                  <button>
+                    <FaList />
+                  </button>
+                  <button>
+                    <FaHeart />
+                  </button>
+                  <button>
+                    <FaSave />
+                  </button>
+                  <button>
+                    <FaPlay />
+                  </button>
                 </div>
               </div>
             </div>
