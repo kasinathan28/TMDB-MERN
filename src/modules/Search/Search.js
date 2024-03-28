@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./Search.css";
+import No_avatar from "../../assets/No_avatar.png";
 
 function Search() {
   const { query: urlQuery } = useParams();
@@ -19,11 +20,15 @@ function Search() {
     network: 0,
     company: 0,
   });
+  const [loading, setLoading] = useState(false); // Loading state
+  const [activeCategory, setActiveCategory] = useState(""); // Active category state
   const SEARCHURL = `${process.env.REACT_APP_SEARCHURL}`;
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
+  const POSTERPATH = `${process.env.REACT_APP_POSTERURL}`;
 
   useEffect(() => {
     const fetchSearchResults = async () => {
+      setLoading(true); // Set loading to true when fetching starts
       try {
         const response = await axios.get(`${SEARCHURL}${query}`, {
           headers: {
@@ -35,6 +40,8 @@ function Search() {
         setFilteredResults(response.data.results);
       } catch (error) {
         console.log("Error fetching search results:", error);
+      } finally {
+        setLoading(false); // Set loading to false when fetching ends
       }
     };
 
@@ -84,6 +91,7 @@ function Search() {
   const handleCategoryClick = (category) => {
     const filtered = results.filter((result) => result.media_type === category);
     setFilteredResults(filtered);
+    setActiveCategory(category); // Set active category
   };
 
   const handleDetails = (mediaType, id) => {
@@ -110,43 +118,43 @@ function Search() {
               <h3>Search Results</h3>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "movie" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("movie")}
             >
               <h3>Movies </h3> <h4>{categoryCounts.movie}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "tv" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("tv")}
             >
               <h3>TV Shows </h3> <h4>{categoryCounts.tv}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "person" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("person")}
             >
               <h3>People</h3> <h4> {categoryCounts.person}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "collection" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("collection")}
             >
               <h3>Collections </h3> <h4>{categoryCounts.collection}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "keyword" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("keyword")}
             >
               <h3>Keywords </h3> <h4>{categoryCounts.keyword}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "network" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("network")}
             >
               <h3>Networks</h3> <h4> {categoryCounts.network}</h4>
             </div>
             <div
-              className="category-box"
+              className={`category-box ${activeCategory === "company" ? "active-category" : ""}`}
               onClick={() => handleCategoryClick("company")}
             >
               <h3>Companies </h3> <h4>{categoryCounts.company}</h4>
@@ -154,25 +162,43 @@ function Search() {
           </div>
         </div>
         <div className="results-section">
-          <h1>"{query}"</h1>
-            {filteredResults.map((result, index) => (
-              <div key={index} className="det">
+          {loading && <div className="loader"></div>}
+          {filteredResults.map((result, index) => (
+            <div key={index} className="det">
+              <div className="image">
+                {result.media_type === "person" && result.profile_path ? (
+                  <img
+                    src={`${POSTERPATH}/${result.profile_path}`}
+                    alt={`${result.title}`}
+                  />
+                ) : result.media_type === "movie" && result.poster_path ? (
+                  <img
+                    src={`${POSTERPATH}/${result.poster_path}`}
+                    alt={`${result.title}`}
+                  />
+                ) : (
+                  <img src={No_avatar} alt="no avatar" />
+                )}
+              </div>
+              <div className="details">
                 {result.title && <h1>{result.title}</h1>}
                 {result.name && <h1>{result.name}</h1>}
                 {result.overview && <p>{result.overview}</p>}
                 <div className="known">
-                    {result.known_for_department}
-                {result.media_type === "person" && result.known_for.map((item, index) => (
-                  <p key={index}>{item.title}</p>
-                ))}
+                  {result.known_for_department}
+                  {result.media_type === "person" &&
+                    result.known_for.map((item, index) => (
+                      <p key={index}>{item.title}</p>
+                    ))}
                 </div>
                 <button
                   onClick={() => handleDetails(result.media_type, result.id)}
                 >
-                  Explore
+                  Know More
                 </button>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>
