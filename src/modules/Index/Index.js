@@ -3,7 +3,6 @@ import "./Index.css";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
 import wave from "../../assets/wave2.png";
-import bg from "../../assets/bg.png";
 
 function Index() {
   const [movies, setMovies] = useState([]);
