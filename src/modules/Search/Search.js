@@ -20,6 +20,7 @@ function Search() {
     network: 0,
     company: 0,
   });
+  
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState("");
   const SEARCHURL = `${process.env.REACT_APP_SEARCHURL}`;
@@ -47,7 +48,6 @@ function Search() {
 
     if (query.trim() !== "") {
       fetchSearchResults();
-      navigate(`/search/${query}`);
     }
   }, [query, SEARCHURL, TOKEN, navigate]);
 
@@ -180,7 +180,10 @@ function Search() {
           {loading && <div className="loader"></div>}
           {filteredResults.map((result, index) => (
             <div key={index} className="det">
-              <div className="image">
+              <div
+                className="image"
+                onClick={() => handleDetails(result.media_type, result.id)}
+              >
                 {result.media_type === "person" && result.profile_path ? (
                   <img
                     src={`${POSTERPATH}/${result.profile_path}`}
@@ -207,11 +210,6 @@ function Search() {
                       <p key={index}>{item.title}</p>
                     ))}
                 </div>
-                {/* <button
-                  onClick={() => handleDetails(result.media_type, result.id)}
-                >
-                  Know More
-                </button> */}
               </div>
             </div>
           ))}

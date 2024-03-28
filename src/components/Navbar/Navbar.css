@@ -31,6 +31,7 @@
 
 .right button:hover {
   transform: scale(1.08);
+  cursor: pointer;
 }
 
 .hamburger {

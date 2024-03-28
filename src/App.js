@@ -4,6 +4,7 @@ import Dashboard from './modules/dash/Dashboard';
 import Auth from './modules/auth/Auth';
 import Signup from './modules/Signup/Signup';
 import Search from './modules/Search/Search';
+import Details from './modules/Details/Details';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/auth' element={<Auth/>}/>
           <Route path = "/dash" element={<Dashboard/>}/>
           <Route path="/search/:query" element={<Search />} />
+          <Route path='/details/:mediaType/:id' element={<Details/>}/>
         </Routes>
       </Router>
     </div>

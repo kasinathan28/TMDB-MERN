@@ -25,6 +25,10 @@
   border: none;
   border-radius: 20px;
 }
+
+.searchbar button:hover{
+  cursor: pointer;
+}
 .searchpage {
   width: 100%;
   height: 100vh;
@@ -121,13 +125,19 @@
 .det .image {
   background: #ddd;
   min-width: 170px;
-  height: 270px;
+  height: 250px;
+  border-radius: 10px;
   overflow: hidden;
+}
+
+.image:hover{
+  cursor: pointer;
 }
 
 .image img {
   width: 100%;
   height: 100%;
+  border-radius: 10px;
   object-fit: cover;
 }
 
@@ -164,15 +174,17 @@ line-height: 25px;
 }
 
 .catbox {
-    height: 50px;
-    overflow: auto;
+    height: auto;
     min-width: 100%;
+    justify-content: flex-start;
+    align-items: center;
     display: flex;
 
 }
 
 .category-box{
     gap: 20px;
+    border-radius: 20px;
     row-gap: 0px;
     height: auto;
   }
@@ -185,11 +197,7 @@ line-height: 25px;
 
 .det {
     height: 200px;
-    width: auto; /* or set a specific width */
- 
     white-space: nowrap;
     margin: 30px 10px;
-  }
-  
-  
+  }  
 }

@@ -54,6 +54,10 @@ function Index() {
     }
   }, []);
 
+  const handleDetails = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
+  };
+
   return (
     <div className="index">
       <Navbar />
@@ -112,6 +116,7 @@ function Index() {
             <img
               src={`${POSTERURL}${movie.poster_path}`}
               alt={`${movie.title}`}
+              onClick={() => handleDetails(movie.media_type, movie.id)}
             />
             <div className="desc">
               <p>{movie.title}</p>
