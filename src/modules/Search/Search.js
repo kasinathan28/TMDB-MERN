@@ -20,15 +20,15 @@ function Search() {
     network: 0,
     company: 0,
   });
-  const [loading, setLoading] = useState(false); // Loading state
-  const [activeCategory, setActiveCategory] = useState(""); // Active category state
+  const [loading, setLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("");
   const SEARCHURL = `${process.env.REACT_APP_SEARCHURL}`;
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const POSTERPATH = `${process.env.REACT_APP_POSTERURL}`;
 
   useEffect(() => {
     const fetchSearchResults = async () => {
-      setLoading(true); // Set loading to true when fetching starts
+      setLoading(true);
       try {
         const response = await axios.get(`${SEARCHURL}${query}`, {
           headers: {
@@ -41,14 +41,15 @@ function Search() {
       } catch (error) {
         console.log("Error fetching search results:", error);
       } finally {
-        setLoading(false); // Set loading to false when fetching ends
+        setLoading(false);
       }
     };
 
     if (query.trim() !== "") {
       fetchSearchResults();
+      navigate(`/search/${query}`);
     }
-  }, [query, SEARCHURL, TOKEN]);
+  }, [query, SEARCHURL, TOKEN, navigate]);
 
   useEffect(() => {
     const counts = results.reduce(
@@ -91,7 +92,7 @@ function Search() {
   const handleCategoryClick = (category) => {
     const filtered = results.filter((result) => result.media_type === category);
     setFilteredResults(filtered);
-    setActiveCategory(category); // Set active category
+    setActiveCategory(category);
   };
 
   const handleDetails = (mediaType, id) => {
@@ -118,43 +119,57 @@ function Search() {
               <h3>Search Results</h3>
             </div>
             <div
-              className={`category-box ${activeCategory === "movie" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "movie" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("movie")}
             >
               <h3>Movies </h3> <h4>{categoryCounts.movie}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "tv" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "tv" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("tv")}
             >
               <h3>TV Shows </h3> <h4>{categoryCounts.tv}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "person" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "person" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("person")}
             >
               <h3>People</h3> <h4> {categoryCounts.person}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "collection" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "collection" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("collection")}
             >
               <h3>Collections </h3> <h4>{categoryCounts.collection}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "keyword" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "keyword" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("keyword")}
             >
               <h3>Keywords </h3> <h4>{categoryCounts.keyword}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "network" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "network" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("network")}
             >
               <h3>Networks</h3> <h4> {categoryCounts.network}</h4>
             </div>
             <div
-              className={`category-box ${activeCategory === "company" ? "active-category" : ""}`}
+              className={`category-box ${
+                activeCategory === "company" ? "active-category" : ""
+              }`}
               onClick={() => handleCategoryClick("company")}
             >
               <h3>Companies </h3> <h4>{categoryCounts.company}</h4>
@@ -183,6 +198,7 @@ function Search() {
               <div className="details">
                 {result.title && <h1>{result.title}</h1>}
                 {result.name && <h1>{result.name}</h1>}
+                {result.release_date && <p>{result.release_date}</p>}
                 {result.overview && <p>{result.overview}</p>}
                 <div className="known">
                   {result.known_for_department}
@@ -191,11 +207,11 @@ function Search() {
                       <p key={index}>{item.title}</p>
                     ))}
                 </div>
-                <button
+                {/* <button
                   onClick={() => handleDetails(result.media_type, result.id)}
                 >
                   Know More
-                </button>
+                </button> */}
               </div>
             </div>
           ))}
