@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Details.css";
 import axios from "axios";
+import { FaList, FaHeart, FaSave, FaPlay } from 'react-icons/fa';
+
 
 function Details() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const [movieDetails, setMovieDetails] = useState(null);
@@ -37,17 +39,36 @@ function Details() {
       <div className="detailsPage">
         {movieDetails && (
           <div className="Detailsbg">
-            <img src={`${BACKDROP}${movieDetails.backdrop_path}`} alt="Backdrop" className="backdrop-image" />
-          <div className="center">
-            <div className="poster">
-                <img src={`${POSTERURL}${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
+            <img
+              src={`${BACKDROP}${movieDetails.backdrop_path}`}
+              alt="Backdrop"
+              className="backdrop-image"
+            />
+            <div className="center">
+              <div className="poster">
+                <img
+                  src={`${POSTERURL}${movieDetails.poster_path}`}
+                  alt={`${movieDetails.title}`}
+                />
+                <div className="buttons">
+                  <button><FaList /></button>
+                  <button><FaHeart /></button>
+                  <button><FaSave /></button>
+                  <button><FaPlay /></button>
                 </div>
-                <div className="overview">
-                    <h1>{`${movieDetails.title}`}</h1>
-                    <p>{`${movieDetails.overview}`}</p>
-                    </div>
+              </div>
+
+              <div className="overview">
+                <h1>{`${movieDetails.title}`}</h1>
+                <p>{`${movieDetails.overview}`}</p>
+                <div className="buttons">
+                  <button><FaList /></button>
+                  <button><FaHeart /></button>
+                  <button><FaSave /></button>
+                  <button><FaPlay /></button>
+                </div>
+              </div>
             </div>
-          
           </div>
         )}
       </div>
