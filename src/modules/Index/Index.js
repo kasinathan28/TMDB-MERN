@@ -79,7 +79,9 @@ function Index() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search for Movies, TV Shows, Person...."
             ref={searchInputRef}
+            autoFocus={false}
           />
+
           <button onClick={handleSearch}>Search</button>
         </div>
         <div>
