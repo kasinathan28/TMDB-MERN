@@ -15,14 +15,14 @@ function Index() {
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
-  const searchInputRef = React.useRef(null); // Ref for the search input field
+  const searchInputRef = React.useRef(null);
 
   // Fetching the movie details
   useEffect(() => {
     const fetchMovies = async (timeFrame) => {
       try {
         const response = await axios.get(
-          `${BASEURL}trending/movie/${timeFrame}?language=en-US`,
+          `${BASEURL}trending/movie/${timeFrame}`,
           {
             headers: {
               accept: "application/json",
@@ -31,9 +31,11 @@ function Index() {
           }
         );
         setMovies(response.data.results.slice(0, 12));
-        setRandomIndex(
-          Math.floor(Math.random() * response.data.results.length)
-        );
+        if (response.data.results.length > 0) {
+          setRandomIndex(
+            Math.floor(Math.random() * response.data.results.length)
+          );
+        }
       } catch (error) {
         console.log("Error fetching movies:", error);
       }
@@ -42,13 +44,12 @@ function Index() {
     fetchMovies(activeItem === "Today" ? "day" : "week");
   }, [activeItem, BASEURL, TOKEN]);
 
- // Handling the search
-const handleSearch = async () => {
-  if (searchQuery.trim() !== '') {
-    navigate(`/search/${searchQuery}`);
-  }
-};
-
+  // Handling the search
+  const handleSearch = async () => {
+    if (searchQuery.trim() !== "") {
+      navigate(`/search/${searchQuery}`);
+    }
+  };
 
   // Focus on the search input field after navigation
   useEffect(() => {
@@ -57,20 +58,33 @@ const handleSearch = async () => {
     }
   }, []);
 
-  const handleDetails = (mediaType, id) => {
-    navigate(`/details/${mediaType}/${id}`);
+  const getNextRandomIndex = () => {
+    if (movies.length === 0) return null;
+    let newIndex = randomIndex;
+    while (!movies[newIndex]?.backdrop_path) {
+      newIndex = (newIndex + 1) % movies.length;
+    }
+    return newIndex;
   };
+
+  useEffect(() => {
+    setRandomIndex(getNextRandomIndex());
+  }, [movies, randomIndex]);
+
 
   return (
     <div className="index">
       <Navbar />
 
       <div className="main">
-        <img
-          src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
-          className="bgimg"
-          alt="Backdrop"
-        />
+        {randomIndex !== null && (
+          <img
+            src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
+            className="bgimg"
+            alt={`${movies.title}`}
+          />
+        )}
+
         <div className="message">
           <h1>Welcome</h1>
           <h2>Millions of Movies, TV Shows, and People To Discover.</h2>
@@ -128,7 +142,7 @@ const handleSearch = async () => {
               <p>{movie.title}</p>
               <p>{movie.release_date}</p>
             </div>
-            <div className="rating">{movie.vote_average}</div>
+            <div className="rating">{movie.vote_average.toFixed(2)}</div>
           </div>
         ))}
       </div>

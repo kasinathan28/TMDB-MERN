@@ -168,9 +168,10 @@
   text-align: center;
   left: 0;
   width: 100%;
+  
   background: #03254196;
   color: #fff;
-  padding: 2px;
+  padding: 1px;
   box-sizing: border-box;
 }
 
@@ -225,10 +226,11 @@
     z-index: -1;
   }
   .trend {
-    padding: 10px 40px;
+    padding: 10px 20px;
   }
   .label{
-    gap: 10px;
+    width: 100%;
+    gap: 2px;
   }
   .label li{
     padding: 5px 10px;

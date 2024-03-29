@@ -34,16 +34,16 @@ function Details() {
 
   const calculateBorderStyle = () => {
     if (movieDetails && movieDetails.vote_average) {
-      const score = movieDetails.vote_average * 10; // Convert to percentage
+      const score = movieDetails.vote_average * 10; 
       if (score >= 70) {
-        return { color: "green", width: "4px" }; // Green border for high score
+        return { color: "green", width: "4px" }; 
       } else if (score >= 50) {
-        return { color: "yellow", width: "3px" }; // Yellow border for medium score
+        return { color: "yellow", width: "3px" }; 
       } else {
-        return { color: "red", width: "2px" }; // Red border for low score
+        return { color: "red", width: "2px" };
       }
     }
-    return { color: "yellow", width: "3px" }; // Default color and width
+    return { color: "yellow", width: "3px" }; 
   };
 
   return (
