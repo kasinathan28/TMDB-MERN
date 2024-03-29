@@ -40,13 +40,16 @@ function Details() {
             },
           });
 
-          const creditsResponse = await axios.get(`${BASEURL}${mediaType}/${id}/credits`, {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          });
-          
+          const creditsResponse = await axios.get(
+            `${BASEURL}${mediaType}/${id}/credits`,
+            {
+              headers: {
+                accept: "application/json",
+                Authorization: `${TOKEN}`,
+              },
+            }
+          );
+
           setCast(creditsResponse.data.cast);
         }
         setDetails(response.data);
@@ -99,37 +102,55 @@ function Details() {
         ) : (
           <div className="detailsPage">
             {details && (
-              <div className={`Detailsbg ${mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""}`}>
+              <div
+                className={`Detailsbg ${
+                  mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
+                }`}
+              >
                 {!(!isLargeScreen && mediaType === "person") && (
                   <img
-                    src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
+                    src={`${BACKDROP}${
+                      details.profile_path || details.backdrop_path
+                    }`}
                     alt="Backdrop"
                     className="backdrop-image"
                   />
                 )}
                 <div className="center">
-                {mediaType === "person" ? (
-  <div className="poster" style={{ flexDirection: "column"}}>
-    <img
-      src={`${POSTERURL}${details.profile_path || details.poster_path}`}
-      alt={`${details.name || details.title}`}
-      style={{display: "flex"}}
-    />
-  </div>
-) : (
-  <div className="poster">
-    <img
-      src={`${POSTERURL}${details.profile_path || details.poster_path}`}
-      alt={`${details.name || details.title}`}
-    />
-    <div className="buttons">
-      <button><FaList /></button>
-      <button><FaHeart /></button>
-      <button><FaSave /></button>
-      <button><FaPlay /></button>
-    </div>
-  </div>
-)}
+                  {mediaType === "person" ? (
+                    <div className="poster" style={{ flexDirection: "column" }}>
+                      <img
+                        src={`${POSTERURL}${
+                          details.profile_path || details.poster_path
+                        }`}
+                        alt={`${details.name || details.title}`}
+                        style={{ display: "flex" }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="poster">
+                      <img
+                        src={`${POSTERURL}${
+                          details.profile_path || details.poster_path
+                        }`}
+                        alt={`${details.name || details.title}`}
+                      />
+                      <div className="buttons">
+                        <button>
+                          <FaList />
+                        </button>
+                        <button>
+                          <FaHeart />
+                        </button>
+                        <button>
+                          <FaSave />
+                        </button>
+                        <button>
+                          <FaPlay />
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="overview">
                     <h1>{`${details.name || details.title}`}</h1>
@@ -142,10 +163,18 @@ function Details() {
                           <h2>Biography</h2>
                           <p>
                             {showFullOverview
-                              ? details.biography 
-                              : details.biography?.substring(0, 200) ?? "Biography not available"}{" "}
+                              ? details.biography
+                              : details.biography?.substring(0, 200) ??
+                                "Biography not available"}{" "}
                           </p>
-                          {!showFullOverview && <a className="biographybtn" onClick={handleReadMore}>Read More</a>}
+                          {!showFullOverview && (
+                            <a
+                              className="biographybtn"
+                              onClick={handleReadMore}
+                            >
+                              Read More
+                            </a>
+                          )}
                         </div>
                       </>
                     ) : (
@@ -159,18 +188,33 @@ function Details() {
                         )}
                         {mediaType === "tv" && details && (
                           <div>
-                            <p>Number of Seasons: {details.number_of_seasons}</p>
-                            <p>Number of Episodes: {details.number_of_episodes}</p>
+                            <p>
+                              Number of Seasons: {details.number_of_seasons}
+                            </p>
+                            <p>
+                              Number of Episodes: {details.number_of_episodes}
+                            </p>
                             {details.last_episode_to_air && (
                               <div>
-                                <p>Last Episode Aired: {details.last_episode_to_air.name}</p>
-                                <p>Last Episode Overview: {details.last_episode_to_air.overview}</p>
+                                <p>
+                                  Last Episode Aired:{" "}
+                                  {details.last_episode_to_air.name}
+                                </p>
+                                <p>
+                                  Last Episode Overview:{" "}
+                                  {details.last_episode_to_air.overview}
+                                </p>
                               </div>
                             )}
                           </div>
                         )}
                         <div className="rating">
-                          <button style={{ borderColor: calculateBorderStyle().color, borderWidth: calculateBorderStyle().width }}>
+                          <button
+                            style={{
+                              borderColor: calculateBorderStyle().color,
+                              borderWidth: calculateBorderStyle().width,
+                            }}
+                          >
                             {(details.vote_average * 10).toFixed(2)}%
                           </button>
                           <span>User Score</span>
@@ -182,10 +226,18 @@ function Details() {
                       </>
                     )}
                     <div className="buttons">
-                      <button><FaList /></button>
-                      <button><FaHeart /></button>
-                      <button><FaSave /></button>
-                      <button><FaPlay /></button>
+                      <button>
+                        <FaList />
+                      </button>
+                      <button>
+                        <FaHeart />
+                      </button>
+                      <button>
+                        <FaSave />
+                      </button>
+                      <button>
+                        <FaPlay />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -206,7 +258,11 @@ function Details() {
                           onClick={() => handleDetails("person", cast.id)}
                         >
                           <img
-                            src={cast.profile_path ? `${POSTERURL}${cast.profile_path}` : NoAvatar}
+                            src={
+                              cast.profile_path
+                                ? `${POSTERURL}${cast.profile_path}`
+                                : NoAvatar
+                            }
                             alt={cast.name}
                             className="posterimg"
                           />
