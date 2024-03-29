@@ -5,10 +5,10 @@ import Loader from "../../components/Loader/Loader";
 import "./Details.css";
 import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
+import NoAvatar from "../..//assets/No_avatar.png";
 
 function Details() {
   const { id, mediaType } = useParams();
-
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const PERSON = `${process.env.REACT_APP_PERSON}`;
@@ -93,23 +93,16 @@ function Details() {
   return (
     <div>
       <Navbar />
-
       <div>
         {loading ? (
           <Loader />
         ) : (
           <div className="detailsPage">
             {details && (
-              <div
-                className={`Detailsbg ${
-                  mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
-                }`}
-              >
+              <div className={`Detailsbg ${mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""}`}>
                 {!(!isLargeScreen && mediaType === "person") && (
                   <img
-                    src={`${BACKDROP}${
-                      details.profile_path || details.backdrop_path
-                    }`}
+                    src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
                     alt="Backdrop"
                     className="backdrop-image"
                   />
@@ -117,24 +110,14 @@ function Details() {
                 <div className="center">
                   <div className="poster">
                     <img
-                      src={`${POSTERURL}${
-                        details.profile_path || details.poster_path
-                      }`}
+                      src={`${POSTERURL}${details.profile_path || details.poster_path}`}
                       alt={`${details.name || details.title}`}
                     />
                     <div className="buttons">
-                      <button>
-                        <FaList />
-                      </button>
-                      <button>
-                        <FaHeart />
-                      </button>
-                      <button>
-                        <FaSave />
-                      </button>
-                      <button>
-                        <FaPlay />
-                      </button>
+                      <button><FaList /></button>
+                      <button><FaHeart /></button>
+                      <button><FaSave /></button>
+                      <button><FaPlay /></button>
                     </div>
                   </div>
                   <div className="overview">
@@ -148,20 +131,10 @@ function Details() {
                           <h2>Biography</h2>
                           <p>
                             {showFullOverview
-                              ? details.biography // Check if details.biography exists before accessing it
-                              : details.biography?.substring(0, 200) ??
-                                "Biography not available"}{" "}
-                            {/* Use optional chaining and nullish coalescing */}
+                              ? details.biography 
+                              : details.biography?.substring(0, 200) ?? "Biography not available"}{" "}
                           </p>
-
-                          {!showFullOverview && (
-                            <a
-                              className="biographybtn"
-                              onClick={handleReadMore}
-                            >
-                              Read More
-                            </a>
-                          )}
+                          {!showFullOverview && <a className="biographybtn" onClick={handleReadMore}>Read More</a>}
                         </div>
                       </>
                     ) : (
@@ -173,7 +146,6 @@ function Details() {
                             ))}
                           </div>
                         )}
-
                         {mediaType === "tv" && details && (
                           <div>
                             <p>Number of Seasons: {details.number_of_seasons}</p>
@@ -186,14 +158,8 @@ function Details() {
                             )}
                           </div>
                         )}
-
                         <div className="rating">
-                          <button
-                            style={{
-                              borderColor: calculateBorderStyle().color,
-                              borderWidth: calculateBorderStyle().width,
-                            }}
-                          >
+                          <button style={{ borderColor: calculateBorderStyle().color, borderWidth: calculateBorderStyle().width }}>
                             {(details.vote_average * 10).toFixed(2)}%
                           </button>
                           <span>User Score</span>
@@ -205,38 +171,33 @@ function Details() {
                       </>
                     )}
                     <div className="buttons">
-                      <button>
-                        <FaList />
-                      </button>
-                      <button>
-                        <FaHeart />
-                      </button>
-                      <button>
-                        <FaSave />
-                      </button>
-                      <button>
-                        <FaPlay />
-                      </button>
+                      <button><FaList /></button>
+                      <button><FaHeart /></button>
+                      <button><FaSave /></button>
+                      <button><FaPlay /></button>
                     </div>
                   </div>
                 </div>
               </div>
             )}
-
-            {mediaType !=="person" && (
-              <div>
-                <div className="trendingPeople">
-                  <div className="trendingPeopleCards">
+            {mediaType !== "person" && (
+              <div className="castdiv1">
+                <div className="cast-head">
+                  <h2>Top Cast</h2>
+                </div>
+                <div className="castdiv">
+                  <div className="castpeopleCards">
                     {cast &&
                       cast.map((cast) => (
                         <div
                           key={cast.id}
-                          className="trendingPeopleCard"
+                          className="castpeopleCard"
                           onClick={() => handleDetails("person", cast.id)}
                         >
                           <img
-                            src={`${POSTERURL}${cast.profile_path}`}
+                            src={cast.profile_path ? `${POSTERURL}${cast.profile_path}` : NoAvatar}
                             alt={cast.name}
+                            className="posterimg"
                           />
                           <div className="personname">
                             <p>{cast.name}</p>

@@ -81,6 +81,7 @@
 }
 
 .over {
+  margin-bottom: 0px;
   width: 80%;
 }
 .over h2 {
@@ -127,55 +128,54 @@
   transform: scale(1.05);
 }
 
-.cast {
-  width: 80%;
-  padding: 20px 40px;
+.castdiv1{
+  padding-top: 40px;
+}
+.castdiv1 h2{
+  padding-left: 200px;
+  color: #fff;
+}
+
+.castdiv {
+  max-width: 80%;
+  padding: 10px;
   margin: auto;
   height: auto;
-}
-
-.cast h2 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #032541;
-  margin-bottom: 15px;
-}
-
-.castmain {
   display: flex;
   overflow-x: auto;
 }
 
-.castCards {
+.castpeopleCards {
   display: flex;
+  transition: 0.3s ease all;
   gap: 30px;
+  padding: 10px 0px;
 }
-.castCard {
+
+.castpeopleCard {
   width: 250px;
   height: 370px;
-  background: #fff;
   border-radius: 20px;
   position: relative;
   transition: 0.3s ease all;
   text-align: center;
   overflow: hidden;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.castCard:hover {
+.castpeopleCard:hover {
   transform: scale(1.03);
   cursor: pointer;
 }
 
-.castCard img {
+.castpeopleCard img {
   width: 100%;
-  height: auto;
   border-radius: 20px 20px 0 0;
 }
 
-.castCard .personname {
+ .castpeopleCard .personname {
   position: absolute;
   bottom: 0;
+  align-content: center;
   width: 100%;
   justify-content: space-around;
   display: flex;
@@ -186,12 +186,12 @@
   color: #fff;
 }
 
-.castCard .personname p {
+.castpeopleCard .personname p {
   margin: 0;
   font-size: 16px;
 }
 
-.castCard .popularity {
+.castpeopleCard .popularity {
   width: 30px;
   height: 30px;
   padding: 10px;
@@ -204,13 +204,11 @@
 }
 
 
-
-
-
 @media screen and (max-width: 768px) {
   .Detailsbg {
     margin: auto;
     height: auto;
+    margin-bottom: 0px;
   }
 
   .center {
@@ -241,18 +239,25 @@
     display: flex;
   }
 
+  .poster img{
+    display: none;
+  }
+
   .poster button {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
+  .castdiv1 h2{
+    padding-left: 40px;
+  }
   .overview {
     width: auto;
     height: auto;
     border-radius: 0px;
     background: none;
   }
+
   .overview h1 {
     line-height: normal;
     font-size: 3vh;
@@ -263,7 +268,10 @@
   }
 
   .genre {
-    justify-content: center;
+    padding: 0px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    text-wrap: balance;
   }
 
   .over {
@@ -281,5 +289,40 @@
     padding: 10px 30px;
   }
 
+  .castdiv1 {
+    padding: 0px;
+  }
+  
+  .castdiv{
+    margin-top: 0px;
+    max-width: none;
+    width: auto;
+  }
 
+  .castpeopleCard{
+    width:120px;
+    height: auto;
+  }
+
+  .castpeopleCard .posterimg{
+  }
+  .castpeopleCard .personname{
+    background: #03254171;
+  }
+  .castpeopleCard img{
+    object-fit: cover;
+  }
+
+  .castpeopleCard:nth-child(1){
+    margin-left: 20px;
+  }
+
+
+  .popularity{
+    top: 0px;
+    right: 0px;
+    position: absolute;
+    max-width: 12px;
+    max-height: 12px;
+  }
 }
