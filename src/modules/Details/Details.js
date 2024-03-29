@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import Loader from "../../components/Loader/Loader";
 import "./Details.css";
 import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
@@ -17,6 +18,7 @@ function Details() {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -37,7 +39,6 @@ function Details() {
             },
           });
 
-          // Fetch movie credits if mediaType is movie
           const creditsResponse = await axios.get(`${MOVIE}${id}/credits`, {
             headers: {
               accept: "application/json",
@@ -49,6 +50,8 @@ function Details() {
         setDetails(response.data);
       } catch (error) {
         console.log("Error while fetching the details", error);
+      }finally{
+        setLoading(false);
       }
     };
     fetchDetails();
@@ -84,130 +87,140 @@ function Details() {
   return (
     <div>
       <Navbar />
-      <div className="detailsPage">
-        {details && (
-          <div
-            className={`Detailsbg ${
-              mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
-            }`}
-          >
-            {!(!isLargeScreen && mediaType === "person") && (
-              <img
-                src={`${BACKDROP}${
-                  details.profile_path || details.backdrop_path
+
+      <div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="detailsPage">
+            {details && (
+              <div
+                className={`Detailsbg ${
+                  mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
                 }`}
-                alt="Backdrop"
-                className="backdrop-image"
-              />
-            )}
-            <div className="center">
-              <div className="poster">
-                <img
-                  src={`${POSTERURL}${
-                    details.profile_path || details.poster_path
-                  }`}
-                  alt={`${details.name || details.title}`}
-                />
-                <div className="buttons">
-                  <button>
-                    <FaList />
-                  </button>
-                  <button>
-                    <FaHeart />
-                  </button>
-                  <button>
-                    <FaSave />
-                  </button>
-                  <button>
-                    <FaPlay />
-                  </button>
-                </div>
-              </div>
-              <div className="overview">
-                <h1>{`${details.name || details.title}`}</h1>
-                {mediaType === "person" ? (
-                  <>
-                    <p>Birthday: {details.birthday}</p>
-                    <p>Place of Birth: {details.place_of_birth}</p>
-                    <p>Popularity: {details.popularity}</p>
-                    <div className="biography">
-                      <h2>Biography</h2>
-                      <p>
-                        {showFullOverview
-                          ? details.biography
-                          : `${details.biography.substring(0, 200)}...`}
-                      </p>
-                      {!showFullOverview && (
-                        <a className="biographybtn" onClick={handleReadMore}>
-                          Read More
-                        </a>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="genre">
-                      {details.genres.map((genre, index) => (
-                        <p key={index}>{genre.name}</p>
-                      ))}
-                    </div>
-                    <div className="rating">
-                      <button
-                        style={{
-                          borderColor: calculateBorderStyle().color,
-                          borderWidth: calculateBorderStyle().width,
-                        }}
-                      >
-                        {(details.vote_average * 10).toFixed(2)}%
-                      </button>
-                      <span>User Score</span>
-                    </div>
-                    <div className="over">
-                      <h2>Overview</h2>
-                      <p>{`${details.overview}`}</p>
-                    </div>
-                  </>
+              >
+                {!(!isLargeScreen && mediaType === "person") && (
+                  <img
+                    src={`${BACKDROP}${
+                      details.profile_path || details.backdrop_path
+                    }`}
+                    alt="Backdrop"
+                    className="backdrop-image"
+                  />
                 )}
-                <div className="buttons">
-                  <button>
-                    <FaList />
-                  </button>
-                  <button>
-                    <FaHeart />
-                  </button>
-                  <button>
-                    <FaSave />
-                  </button>
-                  <button>
-                    <FaPlay />
-                  </button>
+                <div className="center">
+                  <div className="poster">
+                    <img
+                      src={`${POSTERURL}${
+                        details.profile_path || details.poster_path
+                      }`}
+                      alt={`${details.name || details.title}`}
+                    />
+                    <div className="buttons">
+                      <button>
+                        <FaList />
+                      </button>
+                      <button>
+                        <FaHeart />
+                      </button>
+                      <button>
+                        <FaSave />
+                      </button>
+                      <button>
+                        <FaPlay />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="overview">
+                    <h1>{`${details.name || details.title}`}</h1>
+                    {mediaType === "person" ? (
+                      <>
+                        <p>Birthday: {details.birthday}</p>
+                        <p>Place of Birth: {details.place_of_birth}</p>
+                        <p>Popularity: {details.popularity}</p>
+                        <div className="biography">
+                          <h2>Biography</h2>
+                          <p>
+                            {showFullOverview
+                              ? details.biography
+                              : `${details.biography.substring(0, 200)}...`}
+                          </p>
+                          {!showFullOverview && (
+                            <a
+                              className="biographybtn"
+                              onClick={handleReadMore}
+                            >
+                              Read More
+                            </a>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="genre">
+                          {details.genres.map((genre, index) => (
+                            <p key={index}>{genre.name}</p>
+                          ))}
+                        </div>
+                        <div className="rating">
+                          <button
+                            style={{
+                              borderColor: calculateBorderStyle().color,
+                              borderWidth: calculateBorderStyle().width,
+                            }}
+                          >
+                            {(details.vote_average * 10).toFixed(2)}%
+                          </button>
+                          <span>User Score</span>
+                        </div>
+                        <div className="over">
+                          <h2>Overview</h2>
+                          <p>{`${details.overview}`}</p>
+                        </div>
+                      </>
+                    )}
+                    <div className="buttons">
+                      <button>
+                        <FaList />
+                      </button>
+                      <button>
+                        <FaHeart />
+                      </button>
+                      <button>
+                        <FaSave />
+                      </button>
+                      <button>
+                        <FaPlay />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {mediaType === "movie" && (
+              <div className="cast">
+                <h2>Movie Cast</h2>
+                <div className="castmain">
+                  <div className="castCards">
+                    {cast.map((actor) => (
+                      <div key={actor.id} className="castCard">
+                        <img
+                          src={`${POSTERURL}${actor.profile_path}`}
+                          alt={actor.name}
+                        />
+                        <p>{actor.name}</p>
+                        <p>{actor.character}</p>
+                        <p></p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
-
-      {mediaType === "movie" && (
-        <div className="cast">
-          <h2>Movie Cast</h2>
-          <div className="castmain">
-            <div className="castCards">
-              {cast.map((actor) => (
-                <div key={actor.id} className="castCard">
-                  <img
-                    src={`${POSTERURL}${actor.profile_path}`}
-                    alt={actor.name}
-                  />
-                  <p>{actor.name}</p>
-                  <p>{actor.character}</p>
-                  <p></p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
