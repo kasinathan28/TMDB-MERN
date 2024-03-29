@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Loader from "../../components/Loader/Loader";
 import "./Details.css";
@@ -12,13 +12,15 @@ function Details() {
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const PERSON = `${process.env.REACT_APP_PERSON}`;
-  const MOVIE = `${process.env.REACT_APP_MOVIE}`;
+  // BASE URL CHANGED PLEASE NOTE THAT
+  const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const [details, setDetails] = useState(null);
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -32,25 +34,26 @@ function Details() {
             },
           });
         } else {
-          response = await axios.get(`${MOVIE}${id}`, {
+          response = await axios.get(`${BASEURL}${mediaType}/${id}`, {
             headers: {
               accept: "application/json",
               Authorization: `${TOKEN}`,
             },
           });
 
-          const creditsResponse = await axios.get(`${MOVIE}${id}/credits`, {
+          const creditsResponse = await axios.get(`${BASEURL}${mediaType}/${id}/credits`, {
             headers: {
               accept: "application/json",
               Authorization: `${TOKEN}`,
             },
           });
+          
           setCast(creditsResponse.data.cast);
         }
         setDetails(response.data);
       } catch (error) {
         console.log("Error while fetching the details", error);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -68,6 +71,10 @@ function Details() {
 
   const handleReadMore = () => {
     setShowFullOverview(true);
+  };
+
+  const handleDetails = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
   };
 
   const calculateBorderStyle = () => {
@@ -142,9 +149,12 @@ function Details() {
                           <h2>Biography</h2>
                           <p>
                             {showFullOverview
-                              ? details.biography
-                              : `${details.biography.substring(0, 200)}...`}
+                              ? details.biography // Check if details.biography exists before accessing it
+                              : details.biography?.substring(0, 200) ??
+                                "Biography not available"}{" "}
+                            {/* Use optional chaining and nullish coalescing */}
                           </p>
+
                           {!showFullOverview && (
                             <a
                               className="biographybtn"
@@ -157,11 +167,27 @@ function Details() {
                       </>
                     ) : (
                       <>
-                        <div className="genre">
-                          {details.genres.map((genre, index) => (
-                            <p key={index}>{genre.name}</p>
-                          ))}
-                        </div>
+                        {details && details.genres && (
+                          <div className="genre">
+                            {details.genres.map((genre, index) => (
+                              <p key={index}>{genre.name}</p>
+                            ))}
+                          </div>
+                        )}
+
+                        {mediaType === "tv" && details && (
+                          <div>
+                            <p>Number of Seasons: {details.number_of_seasons}</p>
+                            <p>Number of Episodes: {details.number_of_episodes}</p>
+                            {details.last_episode_to_air && (
+                              <div>
+                                <p>Last Episode Aired: {details.last_episode_to_air.name}</p>
+                                <p>Last Episode Overview: {details.last_episode_to_air.overview}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         <div className="rating">
                           <button
                             style={{
@@ -198,22 +224,29 @@ function Details() {
               </div>
             )}
 
-            {mediaType === "movie" && (
-              <div className="cast">
-                <h2>Movie Cast</h2>
-                <div className="castmain">
-                  <div className="castCards">
-                    {cast.map((actor) => (
-                      <div key={actor.id} className="castCard">
-                        <img
-                          src={`${POSTERURL}${actor.profile_path}`}
-                          alt={actor.name}
-                        />
-                        <p>{actor.name}</p>
-                        <p>{actor.character}</p>
-                        <p></p>
-                      </div>
-                    ))}
+            {mediaType !=="person" && (
+              <div>
+                <div className="trendingPeople">
+                  <div className="trendingPeopleCards">
+                    {cast &&
+                      cast.map((cast) => (
+                        <div
+                          key={cast.id}
+                          className="trendingPeopleCard"
+                          onClick={() => handleDetails("person", cast.id)}
+                        >
+                          <img
+                            src={`${POSTERURL}${cast.profile_path}`}
+                            alt={cast.name}
+                          />
+                          <div className="personname">
+                            <p>{cast.name}</p>
+                            <div className="popularity">
+                              {`${cast.popularity.toFixed(2)}`}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>

@@ -129,8 +129,9 @@
 
 .cast {
   width: 80%;
-  padding: 20px;
+  padding: 20px 40px;
   margin: auto;
+  height: auto;
 }
 
 .cast h2 {
@@ -149,34 +150,63 @@
   display: flex;
   gap: 30px;
 }
-
 .castCard {
-  width: 20vh;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  height: 370px;
+  background: #fff;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s ease all;
   text-align: center;
+  overflow: hidden;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.castCard:hover {
+  transform: scale(1.03);
+  cursor: pointer;
 }
 
 .castCard img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+}
+
+.castCard .personname {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-around;
+  display: flex;
+  height: 10%;
+  background: #032541da;
+  align-items: center;
+  padding: 20px 0;
+  color: #fff;
+}
+
+.castCard .personname p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.castCard .popularity {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  justify-content: center;
+  display: flex;
   border-radius: 50%;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.castCard p {
-  margin-bottom: 5px;
-}
-
-.castCard p:first-child {
-  font-weight: bold;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.219);
+  align-items: center;
 }
 
 
-/* Media queries */
+
+
+
 @media screen and (max-width: 768px) {
   .Detailsbg {
     margin: auto;

@@ -102,6 +102,15 @@ function Search() {
   return (
     <div className="searchpage">
       <Navbar />
+      <div className="searchbar">
+        <input
+          type="text"
+          name="searchQuery"
+          id="searchq"
+          defaultValue={query}
+        />
+        <button onClick={handleSubmit}>Search</button>
+      </div>
 
       <div>
         {loading ? (
@@ -172,43 +181,68 @@ function Search() {
               </div>
             </div>
             <div className="results-section">
-              {filteredResults.map((result, index) => (
-                <div key={index} className="det">
-                  <div
-                    className="image"
-                    onClick={() => handleDetails(result.media_type, result.id)}
-                  >
-                    {result.media_type === "person" && result.profile_path ? (
-                      <img
-                        src={`${POSTERPATH}/${result.profile_path}`}
-                        alt={`${result.title}`}
-                      />
-                    ) : result.media_type === "movie" && result.poster_path ? (
-                      <img
-                        src={`${POSTERPATH}/${result.poster_path}`}
-                        alt={`${result.title}`}
-                      />
-                    ) : (
-                      <img src={No_avatar} alt="no avatar" />
-                    )}
-                  </div>
-                  <div className="details">
-                    {result.title && <h1>{result.title}</h1>}
-                    {result.name && <h1>{result.name}</h1>}
-                    {result.release_date && (
-                      <p id="date">{result.release_date}</p>
-                    )}
-                    {result.overview && <p>{result.overview}</p>}
-                    <div className="known">
-                      {result.known_for_department}
-                      {result.media_type === "person" &&
-                        result.known_for.map((item, index) => (
-                          <p key={index}>{item.title}</p>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            {filteredResults.map((result, index) => (
+  <div key={index} className="det">
+    <div
+      className="image"
+      onClick={() => handleDetails(result.media_type, result.id)}
+    >
+      {result.media_type === "person" && result.profile_path ? (
+        <img
+          src={`${POSTERPATH}/${result.profile_path}`}
+          alt={`${result.title}`}
+        />
+      ) : result.media_type === "movie" && result.poster_path ? (
+        <img
+          src={`${POSTERPATH}/${result.poster_path}`}
+          alt={`${result.title}`}
+        />
+      ) : result.media_type === "tv" && result.poster_path ? (
+        <img
+          src={`${POSTERPATH}/${result.poster_path}`}
+          alt={`${result.name}`}
+        />
+      ) : (
+        <img src={No_avatar} alt="no avatar" />
+      )}
+    </div>
+    <div className="details">
+      {result.title && <h1>{result.title}</h1>}
+      {result.name && <h1>{result.name}</h1>}
+      {result.release_date && (
+        <p id="date">{result.release_date}</p>
+      )}
+      {result.first_air_date && (
+        <p id="date">{result.first_air_date}</p>
+      )}
+      {result.overview && <p>{result.overview}</p>}
+      {result.media_type === "tv" && (
+        <>
+          {result.seasons && (
+            <p>Number of seasons: {result.seasons.length}</p>
+          )}
+          {result.number_of_episodes && (
+            <p>Number of episodes: {result.number_of_episodes}</p>
+          )}
+          {result.last_episode_to_air && (
+            <div>
+              <p>Last episode aired: {result.last_episode_to_air.name}</p>
+              <p>Last episode overview: {result.last_episode_to_air.overview}</p>
+            </div>
+          )}
+        </>
+      )}
+      <div className="known">
+        {result.known_for_department}
+        {result.media_type === "person" &&
+          result.known_for.map((item, index) => (
+            <p key={index}>{item.title}</p>
+          ))}
+      </div>
+    </div>
+  </div>
+))}
+
             </div>
           </div>
         )}
