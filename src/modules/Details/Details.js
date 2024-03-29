@@ -15,32 +15,36 @@ function Details() {
   const [details, setDetails] = useState(null);
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
+  const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         let response;
-        if (mediaType === 'person') {
-          response = await axios.get(
-            `${PERSON}${id}`,
-            {
-              headers: {
-                accept: "application/json",
-                Authorization: `${TOKEN}`,
-              },
-            }
-          );
+        if (mediaType === "person") {
+          response = await axios.get(`${PERSON}${id}`, {
+            headers: {
+              accept: "application/json",
+              Authorization: `${TOKEN}`,
+            },
+          });
         } else {
-          response = await axios.get(
-            `${MOVIE}${id}`,
-            {
-              headers: {
-                accept: "application/json",
-                Authorization: `${TOKEN}`,
-              },
-            }
-          );
+          response = await axios.get(`${MOVIE}${id}`, {
+            headers: {
+              accept: "application/json",
+              Authorization: `${TOKEN}`,
+            },
+          });
+
+          // Fetch movie credits if mediaType is movie
+          const creditsResponse = await axios.get(`${MOVIE}${id}/credits`, {
+            headers: {
+              accept: "application/json",
+              Authorization: `${TOKEN}`,
+            },
+          });
+          setCast(creditsResponse.data.cast);
         }
         setDetails(response.data);
       } catch (error) {
@@ -49,13 +53,13 @@ function Details() {
     };
     fetchDetails();
   }, [id, mediaType, TOKEN]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth > 768);
     };
     window.addEventListener("resize", handleResize);
-    handleResize(); 
+    handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -82,18 +86,26 @@ function Details() {
       <Navbar />
       <div className="detailsPage">
         {details && (
-          <div className={`Detailsbg ${mediaType === 'person' && !isLargeScreen ? 'hideBackdrop' : ''}`}>
-            {!(!isLargeScreen && mediaType === 'person') && (
+          <div
+            className={`Detailsbg ${
+              mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
+            }`}
+          >
+            {!(!isLargeScreen && mediaType === "person") && (
               <img
-                src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
+                src={`${BACKDROP}${
+                  details.profile_path || details.backdrop_path
+                }`}
                 alt="Backdrop"
-                className="backdrop-image" 
+                className="backdrop-image"
               />
             )}
             <div className="center">
               <div className="poster">
                 <img
-                  src={`${POSTERURL}${details.profile_path || details.poster_path}`}
+                  src={`${POSTERURL}${
+                    details.profile_path || details.poster_path
+                  }`}
                   alt={`${details.name || details.title}`}
                 />
                 <div className="buttons">
@@ -113,7 +125,7 @@ function Details() {
               </div>
               <div className="overview">
                 <h1>{`${details.name || details.title}`}</h1>
-                {mediaType === 'person' ? (
+                {mediaType === "person" ? (
                   <>
                     <p>Birthday: {details.birthday}</p>
                     <p>Place of Birth: {details.place_of_birth}</p>
@@ -126,7 +138,9 @@ function Details() {
                           : `${details.biography.substring(0, 200)}...`}
                       </p>
                       {!showFullOverview && (
-                        <a className="biographybtn" onClick={handleReadMore}>Read More</a>
+                        <a className="biographybtn" onClick={handleReadMore}>
+                          Read More
+                        </a>
                       )}
                     </div>
                   </>
@@ -173,6 +187,27 @@ function Details() {
           </div>
         )}
       </div>
+
+      {mediaType === "movie" && (
+        <div className="cast">
+          <h2>Movie Cast</h2>
+          <div className="castmain">
+            <div className="castCards">
+              {cast.map((actor) => (
+                <div key={actor.id} className="castCard">
+                  <img
+                    src={`${POSTERURL}${actor.profile_path}`}
+                    alt={actor.name}
+                  />
+                  <p>{actor.name}</p>
+                  <p>{actor.character}</p>
+                  <p></p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

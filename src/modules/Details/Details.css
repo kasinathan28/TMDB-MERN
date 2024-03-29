@@ -127,6 +127,54 @@
   transform: scale(1.05);
 }
 
+.cast {
+  width: 80%;
+  padding: 20px;
+  margin: auto;
+}
+
+.cast h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #032541;
+  margin-bottom: 15px;
+}
+
+.castmain {
+  display: flex;
+  overflow-x: auto;
+}
+
+.castCards {
+  display: flex;
+  gap: 30px;
+}
+
+.castCard {
+  width: 20vh;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.castCard img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.castCard p {
+  margin-bottom: 5px;
+}
+
+.castCard p:first-child {
+  font-weight: bold;
+}
+
 
 /* Media queries */
 @media screen and (max-width: 768px) {
@@ -192,4 +240,16 @@
     padding-top: 10px;
     width: 100%;
   }
+
+  .cast{
+    width: 100%;
+    padding: 0px;
+    padding-bottom: 20px;
+  }
+
+  .cast h2{
+    padding: 10px 30px;
+  }
+
+
 }
