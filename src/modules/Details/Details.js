@@ -34,16 +34,16 @@ function Details() {
 
   const calculateBorderStyle = () => {
     if (movieDetails && movieDetails.vote_average) {
-      const score = movieDetails.vote_average * 10; 
+      const score = movieDetails.vote_average * 10;
       if (score >= 70) {
-        return { color: "green", width: "4px" }; 
+        return { color: "green", width: "4px" };
       } else if (score >= 50) {
-        return { color: "yellow", width: "3px" }; 
+        return { color: "yellow", width: "3px" };
       } else {
         return { color: "red", width: "2px" };
       }
     }
-    return { color: "yellow", width: "3px" }; 
+    return { color: "yellow", width: "3px" };
   };
 
   return (

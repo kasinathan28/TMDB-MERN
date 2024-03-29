@@ -51,6 +51,11 @@ function Index() {
     }
   };
 
+// Handle details page navigation
+  const handleDetails = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
+  };
+
   // Focus on the search input field after navigation
   useEffect(() => {
     if (searchInputRef.current) {
@@ -70,7 +75,6 @@ function Index() {
   useEffect(() => {
     setRandomIndex(getNextRandomIndex());
   }, [movies, randomIndex]);
-
 
   return (
     <div className="index">

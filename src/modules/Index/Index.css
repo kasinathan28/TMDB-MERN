@@ -74,18 +74,17 @@
 }
 
 .trend h2 {
-  font-size: 2.5vh;
+  font-size: 2vh;
   font-weight: 400;
 }
 
 .label {
-  gap: 20px;
   align-items: center;
   display: flex;
 }
 
 .label ul {
-  gap: 20px;
+  gap: 15px;
   border-radius: 24px;
   background-color: #e0e0e0;
   display: flex;
@@ -100,12 +99,11 @@
   transition: 0.3s ease all;
   display: flex;
   text-decoration: none;
-  background-color: #032541;
-  padding: 10px 20px;
+  padding: 0px 20px;
   border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-  color: #fff;
+  background: none;
+  transition:  0.3s ease all;
+  color: #032541;
   font-size: 16px;
 }
 
@@ -117,6 +115,8 @@
 .label li.active {
   transition: 0.3s ease all;
   box-shadow: 0px 0px 0px 10px #032541;
+  background: #032541;
+  color: #fff;
 }
 
 .cardctn {
@@ -168,7 +168,7 @@
   text-align: center;
   left: 0;
   width: 100%;
-  
+
   background: #03254196;
   color: #fff;
   padding: 1px;
@@ -226,14 +226,14 @@
     z-index: -1;
   }
   .trend {
-    padding: 10px 20px;
+    padding: 0px 20px;
   }
   .label{
     width: 100%;
     gap: 2px;
   }
   .label li{
-    padding: 5px 10px;
+    padding: 2px;
   }
   .cardctn {
     padding: 10px 0px;
