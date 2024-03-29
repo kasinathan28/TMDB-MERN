@@ -17,25 +17,20 @@
   width: 100%;
 }
 
-/* .backdrop-image {
-  filter: grayscale(60%);
-} */
-
 .center {
-  width: 90%;
+  width: 80%;
   height: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
   overflow: auto;
   border-radius: 20px;
-  padding: 20px;
+  padding: 10px;
   gap: 40px;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   background: #03254198;
-  backdrop-filter: blur(8px);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
@@ -61,50 +56,55 @@
 }
 
 .overview {
-  width: 70%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   color: #fff;
   margin: auto;
-  padding: 20px 40px;
+  padding: 0px 40px;
   border-radius: 20px;
   line-height: 25px;
   font-size: 2vh;
   overflow: auto;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.overview h2{
-  margin: 0px;
-  margin-top: 10px;
+.overview h1 {
+  margin-bottom: 0px;
+  line-height: normal;
 }
 
-.rating{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.over {
+  width: 80%;
+}
+.over h2 {
+  margin: 20px auto 0px auto;
 }
 
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.genre{
+.genre {
   display: flex;
   gap: 10px;
 }
-.genre p{
+.genre {
   margin: 0px;
+  padding: 0px 10px;
+}
+.overview button {
+  width: 8vh;
+  height: 8vh;
   padding: 10px;
+  color: #fff;
+  background: #03254171;
+  border: 2px solid #ffff;
+  border-radius: 50%;
 }
-.overview button{
-    width: 8vh;
-    height: 8vh;
-    padding: 10px;
-    color: #fff;
-    background: #03254171;
-    border: 2px solid #ffff;
-    border-radius: 50%;
-}
-
 
 .buttons button {
   padding: 10px;
@@ -152,7 +152,7 @@
     margin: auto;
   }
 
-  .poster .buttons{
+  .poster .buttons {
     display: flex;
   }
 
@@ -168,8 +168,21 @@
     border-radius: 0px;
     background: none;
   }
+  .overview h1 {
+    line-height: normal;
+    font-size: 3vh;
+  }
 
   .overview .buttons button {
     display: none;
+  }
+
+  .genre {
+    justify-content: center;
+  }
+
+  .over {
+    padding-top: 10px;
+    width: 100%;
   }
 }

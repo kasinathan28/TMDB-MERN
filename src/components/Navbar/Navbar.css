@@ -13,6 +13,10 @@
   width: auto;
 }
 
+.left:hover{
+  cursor: pointer;
+}
+
 .right {
   width: auto;
   display: flex;

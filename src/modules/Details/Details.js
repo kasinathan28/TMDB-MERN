@@ -6,35 +6,55 @@ import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 
 function Details() {
-  const { id } = useParams();
+  const { id, mediaType } = useParams();
+
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
-  const [movieDetails, setMovieDetails] = useState(null);
+  const [details, setDetails] = useState(null);
+  const [showFullOverview, setShowFullOverview] = useState(false);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          }
-        );
-        setMovieDetails(response.data);
+        let response;
+        if (mediaType === 'person') {
+          response = await axios.get(
+            `https://api.themoviedb.org/3/person/${id}`,
+            {
+              headers: {
+                accept: "application/json",
+                Authorization: `${TOKEN}`,
+              },
+            }
+          );
+        } else {
+          response = await axios.get(
+            `https://api.themoviedb.org/3/movie/${id}`,
+            {
+              headers: {
+                accept: "application/json",
+                Authorization: `${TOKEN}`,
+              },
+            }
+          );
+        }
+        setDetails(response.data);
       } catch (error) {
         console.log("Error while fetching the details", error);
       }
     };
     fetchDetails();
-  }, [id, TOKEN]);
+  }, [id, mediaType, TOKEN]);
+  
+
+  const handleReadMore = () => {
+    setShowFullOverview(true);
+  };
 
   const calculateBorderStyle = () => {
-    if (movieDetails && movieDetails.vote_average) {
-      const score = movieDetails.vote_average * 10;
+    if (details && details.vote_average) {
+      const score = details.vote_average * 10;
       if (score >= 70) {
         return { color: "green", width: "4px" };
       } else if (score >= 50) {
@@ -50,18 +70,18 @@ function Details() {
     <div>
       <Navbar />
       <div className="detailsPage">
-        {movieDetails && (
+        {details && (
           <div className="Detailsbg">
             <img
-              src={`${BACKDROP}${movieDetails.backdrop_path}`}
+              src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
               alt="Backdrop"
-              className="backdrop-image"
+              className="backdrop-image" 
             />
             <div className="center">
               <div className="poster">
                 <img
-                  src={`${POSTERURL}${movieDetails.poster_path}`}
-                  alt={`${movieDetails.title}`}
+                  src={`${POSTERURL}${details.profile_path || details.poster_path}`}
+                  alt={`${details.name || details.title}`}
                 />
                 <div className="buttons">
                   <button>
@@ -79,26 +99,48 @@ function Details() {
                 </div>
               </div>
               <div className="overview">
-              <h1>{`${movieDetails.title} (${new Date(movieDetails.release_date).getFullYear()})`}</h1>
-                <div className="genre">
-                {movieDetails.genres.map((genre, index) => (
-                  <p key={index}>{genre.name}</p>
-                ))}
-                  </div>
-                <div className="rating">
-                  <button
-                    style={{
-                      borderColor: calculateBorderStyle().color,
-                      borderWidth: calculateBorderStyle().width,
-                    }}
-                  >
-                    {(movieDetails.vote_average * 10).toFixed(2)}%
-                  </button>
-
-                  <span>User Score</span>
-                </div>
-                <h2>Overview</h2>
-                <p>{`${movieDetails.overview}`}</p>
+                <h1>{`${details.name || details.title}`}</h1>
+                {mediaType === 'person' ? (
+                  <>
+                    <p>Birthday: {details.birthday}</p>
+                    <p>Place of Birth: {details.place_of_birth}</p>
+                    <p>Popularity: {details.popularity}</p>
+                    <div className="biography">
+                      <h2>Biography</h2>
+                      <p>
+                        {showFullOverview
+                          ? details.biography
+                          : `${details.biography.substring(0, 200)}...`}
+                      </p>
+                      {!showFullOverview && (
+                        <button onClick={handleReadMore}>Read More</button>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="genre">
+                      {details.genres.map((genre, index) => (
+                        <p key={index}>{genre.name}</p>
+                      ))}
+                    </div>
+                    <div className="rating">
+                      <button
+                        style={{
+                          borderColor: calculateBorderStyle().color,
+                          borderWidth: calculateBorderStyle().width,
+                        }}
+                      >
+                        {(details.vote_average * 10).toFixed(2)}%
+                      </button>
+                      <span>User Score</span>
+                    </div>
+                    <div className="over">
+                      <h2>Overview</h2>
+                      <p>{`${details.overview}`}</p>
+                    </div>
+                  </>
+                )}
                 <div className="buttons">
                   <button>
                     <FaList />
