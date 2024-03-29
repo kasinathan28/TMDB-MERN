@@ -42,10 +42,13 @@ function Index() {
     fetchMovies(activeItem === "Today" ? "day" : "week");
   }, [activeItem, BASEURL, TOKEN]);
 
-  // Handling the search
-  const handleSearch = async () => {
+ // Handling the search
+const handleSearch = async () => {
+  if (searchQuery.trim() !== '') {
     navigate(`/search/${searchQuery}`);
-  };
+  }
+};
+
 
   // Focus on the search input field after navigation
   useEffect(() => {

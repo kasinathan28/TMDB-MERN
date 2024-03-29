@@ -201,7 +201,7 @@ function Search() {
               <div className="details">
                 {result.title && <h1>{result.title}</h1>}
                 {result.name && <h1>{result.name}</h1>}
-                {result.release_date && <p>{result.release_date}</p>}
+                {result.release_date && <p id="date">{result.release_date}</p>}
                 {result.overview && <p>{result.overview}</p>}
                 <div className="known">
                   {result.known_for_department}

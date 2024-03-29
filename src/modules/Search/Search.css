@@ -108,7 +108,7 @@
   padding: 10px;
   margin: 30px 20px;
   gap: 20px;
-  overflow: hidden;
+  /* overflow: hidden; */
   text-overflow: ellipsis;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.473);
@@ -196,8 +196,20 @@ line-height: 25px;
 }
 
 .det {
-    height: 200px;
-    white-space: nowrap;
-    margin: 30px 10px;
+  gap: 12px;
+    height:250px;
+    margin:20px 10px;
   }  
+
+ .det .image{
+    height:100%;
+  }
+
+  .details{
+    overflow: hidden;
+    text-wrap: balance;
+  }
+  .details  #date{
+    color: #666;
+  }
 }
