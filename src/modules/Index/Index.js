@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./Index.css";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
-import Loader from "../../components/Loader/Loader";
 import wave from "../../assets/wave2.png";
 
 function Index() {
@@ -12,14 +11,12 @@ function Index() {
   const [randomIndex, setRandomIndex] = useState(null);
   const [activeItem, setActiveItem] = useState("Today");
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true); 
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const searchInputRef = React.useRef(null);
 
-  // Fetching the movie details
   useEffect(() => {
     const fetchMovies = async (timeFrame) => {
       try {
@@ -38,29 +35,24 @@ function Index() {
             Math.floor(Math.random() * response.data.results.length)
           );
         }
-        setLoading(false);
       } catch (error) {
         console.log("Error fetching movies:", error);
-        setLoading(false); 
       }
     };
 
     fetchMovies(activeItem === "Today" ? "day" : "week");
   }, [activeItem, BASEURL, TOKEN]);
 
-  // Handling the search
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
       navigate(`/search/${searchQuery}`);
     }
   };
 
-// Handle details page navigation
   const handleDetails = (mediaType, id) => {
     navigate(`/details/${mediaType}/${id}`);
   };
 
-  // Focus on the search input field after navigation
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
@@ -85,16 +77,12 @@ function Index() {
       <Navbar />
 
       <div className="main">
-        {loading ? (
-          <Loader /> 
-        ) : (
-          randomIndex !== null && (
-            <img
-              src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
-              className="bgimg"
-              alt={`${movies.title}`}
-            />
-          )
+        {randomIndex !== null && (
+          <img
+            src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
+            className="bgimg"
+            alt={`${movies.title}`}
+          />
         )}
 
         <div className="message">

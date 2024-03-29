@@ -56,7 +56,7 @@
 }
 
 .overview {
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -68,6 +68,11 @@
   font-size: 2vh;
   overflow: auto;
   justify-content: flex-start;
+}
+
+.biographybtn{
+  padding: 0px;
+  border: 0px;
 }
 
 .overview h1 {
@@ -122,6 +127,7 @@
   transform: scale(1.05);
 }
 
+
 /* Media queries */
 @media screen and (max-width: 768px) {
   .Detailsbg {
@@ -141,6 +147,7 @@
     background: none;
     width: 100%;
     padding: 0px;
+    padding-bottom: 30px;
     background-color: none;
   }
 

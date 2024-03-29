@@ -10,8 +10,11 @@ function Details() {
 
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
+  const PERSON = `${process.env.REACT_APP_PERSON}`;
+  const MOVIE = `${process.env.REACT_APP_MOVIE}`;
   const [details, setDetails] = useState(null);
   const [showFullOverview, setShowFullOverview] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(true);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
 
   useEffect(() => {
@@ -20,7 +23,7 @@ function Details() {
         let response;
         if (mediaType === 'person') {
           response = await axios.get(
-            `https://api.themoviedb.org/3/person/${id}`,
+            `${PERSON}${id}`,
             {
               headers: {
                 accept: "application/json",
@@ -30,7 +33,7 @@ function Details() {
           );
         } else {
           response = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}`,
+            `${MOVIE}${id}`,
             {
               headers: {
                 accept: "application/json",
@@ -47,6 +50,14 @@ function Details() {
     fetchDetails();
   }, [id, mediaType, TOKEN]);
   
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth > 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize(); 
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleReadMore = () => {
     setShowFullOverview(true);
@@ -71,12 +82,14 @@ function Details() {
       <Navbar />
       <div className="detailsPage">
         {details && (
-          <div className="Detailsbg">
-            <img
-              src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
-              alt="Backdrop"
-              className="backdrop-image" 
-            />
+          <div className={`Detailsbg ${mediaType === 'person' && !isLargeScreen ? 'hideBackdrop' : ''}`}>
+            {!(!isLargeScreen && mediaType === 'person') && (
+              <img
+                src={`${BACKDROP}${details.profile_path || details.backdrop_path}`}
+                alt="Backdrop"
+                className="backdrop-image" 
+              />
+            )}
             <div className="center">
               <div className="poster">
                 <img
@@ -113,7 +126,7 @@ function Details() {
                           : `${details.biography.substring(0, 200)}...`}
                       </p>
                       {!showFullOverview && (
-                        <button onClick={handleReadMore}>Read More</button>
+                        <a className="biographybtn" onClick={handleReadMore}>Read More</a>
                       )}
                     </div>
                   </>

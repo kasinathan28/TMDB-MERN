@@ -179,10 +179,10 @@ line-height: 25px;
     justify-content: flex-start;
     align-items: center;
     display: flex;
-
-}
-
-.category-box{
+    
+  }
+  
+  .category-box{
     gap: 20px;
     border-radius: 20px;
     row-gap: 0px;
@@ -193,22 +193,28 @@ line-height: 25px;
     width: 100%;
     justify-content: center;
     padding: 0px;
-}
-
-.det {
-  gap: 12px;
+  }
+  
+  .det {
+    gap: 12px;
     height:250px;
     margin:20px 10px;
   }  
-
- .det .image{
+  
+  .det .image{
     height:100%;
   }
-
+  
   .details{
-    overflow: hidden;
+    overflow: hidden;    
     text-wrap: balance;
   }
+  
+  .known {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
   .details  #date{
     color: #666;
   }
