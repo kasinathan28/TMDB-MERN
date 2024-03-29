@@ -108,18 +108,37 @@ function Details() {
                   />
                 )}
                 <div className="center">
-                  <div className="poster">
-                    <img
-                      src={`${POSTERURL}${details.profile_path || details.poster_path}`}
-                      alt={`${details.name || details.title}`}
-                    />
-                    <div className="buttons">
-                      <button><FaList /></button>
-                      <button><FaHeart /></button>
-                      <button><FaSave /></button>
-                      <button><FaPlay /></button>
+                  {mediaType === "person" ? (
+                   <div className="poster" style={{ flexDirection: "column"}}>
+                   <img
+                     src={`${POSTERURL}${details.profile_path || details.poster_path}`}
+                     alt={`${details.name || details.title}`}
+                     style={{display: "flex"}}
+                   />
+                   <div className="buttons">
+                     <button><FaList /></button>
+                     <button><FaHeart /></button>
+                     <button><FaSave /></button>
+                     <button><FaPlay /></button>
+                   </div>
+                 </div>
+        
+                  ) : (
+
+                    <div className="poster">
+                      <img
+                        src={`${POSTERURL}${details.profile_path || details.poster_path}`}
+                        alt={`${details.name || details.title}`}
+                      />
+                      <div className="buttons">
+                        <button><FaList /></button>
+                        <button><FaHeart /></button>
+                        <button><FaSave /></button>
+                        <button><FaPlay /></button>
+                      </div>
                     </div>
-                  </div>
+
+                  )}
                   <div className="overview">
                     <h1>{`${details.name || details.title}`}</h1>
                     {mediaType === "person" ? (

@@ -153,21 +153,6 @@
 
 
 
-
-.cardctn::-webkit-scrollbar {
-  height: 5px;
-}
-
-.cardctn::-webkit-scrollbar-thumb {
-  background: #032541;
-  border-radius: 5px;
-}
-
-.cardctn::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-
 .card {
   min-width: 30vh;
   height: 40vh;

@@ -168,7 +168,9 @@
 }
 
 .castpeopleCard img {
-  width: 100%;
+  width: auto;
+  height: 40vh;
+  object-fit: cover;
   border-radius: 20px 20px 0 0;
 }
 
@@ -228,6 +230,7 @@
   }
 
   .poster {
+    padding-top: 20px;
     width: 50%;
     justify-content: flex-start;
     height: auto;
@@ -299,13 +302,16 @@
     width: auto;
   }
 
+  .castpeopleCard img{
+    width: auto;
+    height: 25vh;
+  }
+  
   .castpeopleCard{
-    width:120px;
     height: auto;
+    width: auto;
   }
 
-  .castpeopleCard .posterimg{
-  }
   .castpeopleCard .personname{
     background: #03254171;
   }
