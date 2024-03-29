@@ -79,7 +79,12 @@ function Details() {
                 </div>
               </div>
               <div className="overview">
-                <h1>{`${movieDetails.title}`}</h1>
+              <h1>{`${movieDetails.title} (${new Date(movieDetails.release_date).getFullYear()})`}</h1>
+                <div className="genre">
+                {movieDetails.genres.map((genre, index) => (
+                  <p key={index}>{genre.name}</p>
+                ))}
+                  </div>
                 <div className="rating">
                   <button
                     style={{
@@ -92,6 +97,7 @@ function Details() {
 
                   <span>User Score</span>
                 </div>
+                <h2>Overview</h2>
                 <p>{`${movieDetails.overview}`}</p>
                 <div className="buttons">
                   <button>
