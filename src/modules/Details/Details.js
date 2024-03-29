@@ -12,7 +12,6 @@ function Details() {
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const PERSON = `${process.env.REACT_APP_PERSON}`;
-  // BASE URL CHANGED PLEASE NOTE THAT
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const [details, setDetails] = useState(null);
   const [showFullOverview, setShowFullOverview] = useState(false);

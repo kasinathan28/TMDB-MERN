@@ -119,6 +119,19 @@
   color: #fff;
 }
 
+
+.cardctn {
+  max-width: 90%;
+  width: 90%;
+  /* height:40vh; */
+  margin: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 20px 0px;
+  overflow-x: auto;
+  margin-bottom: 30px;
+}
+
 .cardctnbg {
   margin: auto;
   display: flex;
@@ -138,16 +151,6 @@
   z-index: -1;
 }
 
-.cardctn {
-  max-width: 90%;
-  width: 90%;
-  height: auto;
-  margin: auto;
-  display: flex;
-  flex-wrap: nowrap;
-  padding: 20px 0px;
-  overflow-x: auto;
-}
 
 
 
@@ -220,10 +223,11 @@
 }
 
 .trendingPeople {
-  max-width: 90%;
+  max-width: 75%;
   padding: 10px;
   margin: auto;
   height: auto;
+  background: #032541;
   display: flex;
   overflow-x: auto;
 }
@@ -238,7 +242,6 @@
 .trendingPeopleCard {
   width: 250px;
   height: 370px;
-  background: #fff;
   border-radius: 20px;
   position: relative;
   transition: 0.3s ease all;
