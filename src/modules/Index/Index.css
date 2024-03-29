@@ -89,7 +89,7 @@
   background-color: #e0e0e0;
   display: flex;
   list-style-type: none;
-  padding:10px  11px;
+  padding: 10px 11px;
 }
 
 .label li {
@@ -102,7 +102,7 @@
   padding: 0px 20px;
   border-radius: 16px;
   background: none;
-  transition:  0.3s ease all;
+  transition: 0.3s ease all;
   color: #032541;
   font-size: 16px;
 }
@@ -119,48 +119,66 @@
   color: #fff;
 }
 
+.cardctnbg {
+  margin: auto;
+  display: flex;
+  width: 100%;
+  align-items:center;
+  justify-content: center;
+  height: auto;
+}
+
+.cardctnbg img {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  z-index: -1;
+}
+
 .cardctn {
   max-width: 90%;
   width: 100%;
   height: auto;
   margin: auto;
-  overflow-x: scroll;
   display: flex;
+  flex-wrap: nowrap;
   gap: 30px;
-  padding: 20px 20px;
-  margin-bottom: 20px;
+  padding: 20px 40px;
+  overflow-x: auto;
 }
 
 
-.cardctnbg{
-  display: flex;
-  scroll-behavior: smooth;
-  align-items:end;
-  padding: 0px;
-  width: 100%;
-  height: auto;
+
+.cardctn::-webkit-scrollbar {
+  height: 5px;
 }
 
-.cardctnbg img{
-  width: 90%;
-  object-fit: cover;
-  position: absolute;
+.cardctn::-webkit-scrollbar-thumb {
+  background: #032541;
+  border-radius: 5px;
 }
+
+.cardctn::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 
 .card {
   min-width: 30vh;
   height: 40vh;
-  background: #000;
   border-radius: 12px;
   position: relative;
+  scroll-behavior: smooth;
   overflow: hidden;
   margin: auto;
   transition: 0.3s ease all;
 }
 
-.card:hover{
+.card:hover {
   cursor: pointer;
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .card .desc {
@@ -169,7 +187,6 @@
   text-align: center;
   left: 0;
   width: 100%;
-
   background: #03254196;
   color: #fff;
   padding: 1px;
@@ -195,15 +212,82 @@
   transform: translateX(-50%);
   width: 5vh;
   height: 5vh;
-  background-color: rgba(255, 255, 255, 0.219);
   color: #fff;
   border-radius: 50%;
   backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.219);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+.trendingPeople {
+  max-width: 90%;
+  padding: 10px;
+  margin: auto;
+  height: auto;
+  display: flex;
+  overflow-x: auto;
+}
 
-/* For smaller screen */
+.trendingPeopleCards {
+  display: flex;
+  transition: 0.3s ease all;
+  gap: 30px;
+  padding: 10px 0px;
+}
+
+.trendingPeopleCard {
+  width: 250px;
+  height: 370px;
+  background: #fff;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s ease all;
+  text-align: center;
+  overflow: hidden;
+}
+
+.trendingPeopleCard:hover {
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+.trendingPeopleCard img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+}
+
+.personname {
+  position: absolute;
+  bottom: 0;
+  align-content: center;
+  width: 100%;
+  justify-content: space-around;
+  display: flex;
+  height: 10%;
+  background: #032541da;
+  align-items: center;
+  padding: 20px 0;
+  color: #fff;
+}
+
+.personname p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.popularity {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  justify-content: center;
+  display: flex;
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.219);
+  align-items: center;
+}
+
 @media screen and (max-width: 768px) {
   .main {
     width: 100%;
@@ -229,15 +313,15 @@
   .trend {
     padding: 0px 20px;
   }
-  .label{
+  .label {
     width: 100%;
     gap: 2px;
   }
-  .label li{
+  .label li {
     padding: 2px;
   }
   .cardctn {
-    padding: 10px 0px;
+    padding: 10px 20px;
     gap: 10px;
     width: 100%;
   }
@@ -247,10 +331,24 @@
     margin: 10px;
   }
   .cardctn::-webkit-scrollbar {
-    width: 10vw; 
+    width: 10vw;
   }
   .cardctn::-webkit-scrollbar-thumb {
-    background: #032541; 
+    background: #032541;
     border-radius: 5px;
+  }
+
+  .cardctnbg img{
+    bottom: auto;
+  }
+
+  .trendingPeopleCard {
+    width: 150px;
+    height: 220px;
+  }
+
+  .popularity {
+    width: 15px;
+    height: 15px;
   }
 }

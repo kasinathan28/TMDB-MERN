@@ -4,7 +4,6 @@ body {
     antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Source Sans 3", sans-serif;
-  scroll-behavior: smooth;
 }
 
 code {

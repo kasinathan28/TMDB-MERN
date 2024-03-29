@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Index.css";
-import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
+import Navbar from "../../components/Navbar/Navbar";
 import wave from "../../assets/wave2.png";
+import "./Index.css";
 
 function Index() {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [randomIndex, setRandomIndex] = useState(null);
   const [activeItem, setActiveItem] = useState("Today");
+  const [activePeopleItem, setActivePeopleItem] = useState("Today"); // New state for trending people
+  const [trendingPeople, setTrendingPeople] = useState([]); // New state for trending people data
   const [searchQuery, setSearchQuery] = useState("");
   const TOKEN = `${process.env.REACT_APP_TOKEN}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
@@ -42,6 +44,27 @@ function Index() {
 
     fetchMovies(activeItem === "Today" ? "day" : "week");
   }, [activeItem, BASEURL, TOKEN]);
+
+  useEffect(() => {
+    const fetchTrendingPeople = async (timeFrame) => {
+      try {
+        const response = await axios.get(
+          `${BASEURL}trending/person/${timeFrame}`, // API endpoint for trending people
+          {
+            headers: {
+              accept: "application/json",
+              Authorization: `${TOKEN}`,
+            },
+          }
+        );
+        setTrendingPeople(response.data.results.slice(0, 12));
+      } catch (error) {
+        console.log("Error fetching trending people:", error);
+      }
+    };
+
+    fetchTrendingPeople(activePeopleItem === "Today" ? "day" : "week");
+  }, [activePeopleItem, BASEURL, TOKEN]);
 
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
@@ -109,7 +132,7 @@ function Index() {
 
       <div className="trend">
         <div className="label">
-          <h2>Trending:</h2>
+          <h2>Trending Movies:</h2>
           <ul>
             <li
               className={activeItem === "Today" ? "active" : ""}
@@ -128,23 +151,63 @@ function Index() {
       </div>
 
       <div className="cardctn">
-        <div className="cardctnbg">
-          <img src={wave} alt="wave" />
+  <div className="cardctnbg">
+    <img src={wave} alt="wave" />
+  </div>
+  {movies.map((movie, index) => (
+    <div key={index} className="card">
+      <img
+        src={`${POSTERURL}${movie.poster_path}`}
+        alt={`${movie.title}`}
+        onClick={() => handleDetails(movie.media_type, movie.id)}
+      />
+      <div className="desc">
+        <p>{movie.title}</p>
+        <p>{movie.release_date}</p>
+      </div>
+      <div className="rating">{movie.vote_average.toFixed(2)}</div>
+    </div>
+  ))}
+</div>
+
+
+      <div className="trend">
+        <div className="label">
+          <h2>Trending People:</h2>
+          <ul>
+            <li
+              className={activePeopleItem === "Today" ? "active" : ""}
+              onClick={() => setActivePeopleItem("Today")}
+            >
+              Today
+            </li>
+            <li
+              className={activePeopleItem === "This Week" ? "active" : ""}
+              onClick={() => setActivePeopleItem("This Week")}
+            >
+              This Week
+            </li>
+          </ul>
         </div>
-        {movies.map((movie, index) => (
-          <div key={index} className="card">
-            <img
-              src={`${POSTERURL}${movie.poster_path}`}
-              alt={`${movie.title}`}
-              onClick={() => handleDetails(movie.media_type, movie.id)}
-            />
-            <div className="desc">
-              <p>{movie.title}</p>
-              <p>{movie.release_date}</p>
+      </div>
+
+      <div className="trendingPeople">
+        <div className="trendingPeopleCards">
+          {trendingPeople.map((person, index) => (
+            <div key={index} className="trendingPeopleCard">
+              <img
+                src={`${POSTERURL}${person.profile_path}`}
+                alt={person.name}
+              />
+              <div className="personname">
+                <p>{person.name}</p>
+                <div className="popularity">
+                  {`${person.popularity.toFixed(2)}`}
+                </div>
+              </div>
             </div>
-            <div className="rating">{movie.vote_average.toFixed(2)}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
