@@ -151,25 +151,24 @@ function Index() {
       </div>
 
       <div className="cardctn">
-  <div className="cardctnbg">
-    <img src={wave} alt="wave" />
-  </div>
-  {movies.map((movie, index) => (
-    <div key={index} className="card">
-      <img
-        src={`${POSTERURL}${movie.poster_path}`}
-        alt={`${movie.title}`}
-        onClick={() => handleDetails(movie.media_type, movie.id)}
-      />
-      <div className="desc">
-        <p>{movie.title}</p>
-        <p>{movie.release_date}</p>
+        <div className="cardctnbg">
+          <img src={wave} alt="wave" />
+        </div>
+        {movies.map((movie, index) => (
+          <div key={index} className="card">
+            <img
+              src={`${POSTERURL}${movie.poster_path}`}
+              alt={`${movie.title}`}
+              onClick={() => handleDetails(movie.media_type, movie.id)}
+            />
+            <div className="desc">
+              <p>{movie.title}</p>
+              <p>{movie.release_date}</p>
+            </div>
+            <div className="rating">{movie.vote_average.toFixed(2)}</div>
+          </div>
+        ))}
       </div>
-      <div className="rating">{movie.vote_average.toFixed(2)}</div>
-    </div>
-  ))}
-</div>
-
 
       <div className="trend">
         <div className="label">

@@ -125,6 +125,7 @@
   width: 100%;
   align-items:center;
   justify-content: center;
+  background: #000;
   height: auto;
 }
 
@@ -139,13 +140,12 @@
 
 .cardctn {
   max-width: 90%;
-  width: 100%;
+  width: 90%;
   height: auto;
   margin: auto;
   display: flex;
   flex-wrap: nowrap;
-  gap: 30px;
-  padding: 20px 40px;
+  padding: 20px 0px;
   overflow-x: auto;
 }
 
@@ -172,7 +172,7 @@
   position: relative;
   scroll-behavior: smooth;
   overflow: hidden;
-  margin: auto;
+  margin: 0px 20px;
   transition: 0.3s ease all;
 }
 
@@ -309,6 +309,7 @@
     position: absolute;
     bottom: 20px;
     z-index: -1;
+    height: 100px;
   }
   .trend {
     padding: 0px 20px;
@@ -321,14 +322,15 @@
     padding: 2px;
   }
   .cardctn {
+    justify-content: flex-start;
     padding: 10px 20px;
-    gap: 10px;
+    gap: 0px;
     width: 100%;
   }
   .card {
     min-width: 40%;
     height: auto;
-    margin: 10px;
+    margin: auto 10px;
   }
   .cardctn::-webkit-scrollbar {
     width: 10vw;
@@ -339,7 +341,7 @@
   }
 
   .cardctnbg img{
-    bottom: auto;
+    height: 160px;
   }
 
   .trendingPeopleCard {
