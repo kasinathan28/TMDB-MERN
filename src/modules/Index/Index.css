@@ -138,8 +138,7 @@
   width: 100%;
   align-items:center;
   justify-content: center;
-  background: #000;
-  height: auto;
+  min-height: 29vh;
 }
 
 .cardctnbg img {
@@ -156,11 +155,13 @@
 .card {
   min-width: 30vh;
   height: 40vh;
+  min-height: 26vh;
   border-radius: 12px;
   position: relative;
   scroll-behavior: smooth;
   overflow: hidden;
   margin: 0px 20px;
+  background: #fefefe;
   transition: 0.3s ease all;
 }
 
