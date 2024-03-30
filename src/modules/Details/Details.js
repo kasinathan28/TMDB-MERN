@@ -6,6 +6,7 @@ import "./Details.css";
 import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 import NoAvatar from "../..//assets/No_avatar.png";
+import ReactPlayer from "react-player";
 
 function Details() {
   const { id, mediaType } = useParams();
@@ -19,6 +20,7 @@ function Details() {
   const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const [loading, setLoading] = useState(true);
+  const [trailer, setTrailer] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,6 +95,39 @@ function Details() {
     return { color: "yellow", width: "3px" };
   };
 
+  const GetTrailer = async () => {
+    try {
+      const response = await axios.get(
+        `${BASEURL}${mediaType}/${id}/videos`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${TOKEN}`,
+          },
+        }
+      );
+
+      // Check if there are any results in the response
+      if (response.data.results && response.data.results.length > 0) {
+        // Find the first video with type "Trailer"
+        const trailerVideo = response.data.results.find(
+          (video) => video.type === "Trailer"
+        );
+
+        if (trailerVideo) {
+          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);
+          console.log(trailer);
+        } else {
+          console.log("No trailer found.");
+        }
+      } else {
+        console.log("No videos found in the response.");
+      }
+    } catch (error) {
+      console.log("Error loading the trailer", error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -145,7 +180,7 @@ function Details() {
                         <button>
                           <FaSave />
                         </button>
-                        <button>
+                        <button onClick={GetTrailer}>
                           <FaPlay />
                         </button>
                       </div>
@@ -235,9 +270,10 @@ function Details() {
                       <button>
                         <FaSave />
                       </button>
-                      <button>
-                        <FaPlay />
-                      </button>
+                      <button onClick={GetTrailer}>
+                          <FaPlay />
+                      <ReactPlayer url={trailer} controls />
+                        </button>
                     </div>
                   </div>
                 </div>
