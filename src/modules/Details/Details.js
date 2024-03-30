@@ -15,7 +15,7 @@ function Details() {
   const PERSON = `${process.env.REACT_APP_PERSON}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const [details, setDetails] = useState(null);
-  const [showFullOverview, setShowFullOverview] = useState(false); // State for overview read more
+  const [showFullOverview, setShowFullOverview] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
@@ -24,18 +24,14 @@ function Details() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-
-
   const openModal = () => {
     setShowModal(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setShowModal(false);
   };
 
-  
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -94,7 +90,6 @@ function Details() {
     navigate(`/details/${mediaType}/${id}`);
   };
 
-  // Function to calculate border style based on vote average
   const calculateBorderStyle = () => {
     if (details && details.vote_average) {
       const score = details.vote_average * 10;
@@ -109,7 +104,6 @@ function Details() {
     return { color: "yellow", width: "3px" };
   };
 
-  // Function to fetch trailer
   const getTrailer = async () => {
     try {
       const response = await axios.get(
@@ -122,18 +116,14 @@ function Details() {
         }
       );
 
-      // Check if there are any results in the response
       if (response.data.results && response.data.results.length > 0) {
-        // Find the first video with type "Trailer"
         const trailerVideo = response.data.results.find(
           (video) => video.type === "Trailer"
         );
 
         if (trailerVideo) {
-          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);          
+          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);
           openModal();
-
-
         } else {
           console.log("No trailer found.");
         }
@@ -158,7 +148,9 @@ function Details() {
             {details && (
               <div
                 className={`Detailsbg ${
-                  mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
+                  mediaType === "person" && !isLargeScreen
+                    ? "hideBackdrop"
+                    : ""
                 }`}
               >
                 {!(!isLargeScreen && mediaType === "person") && (
@@ -307,37 +299,36 @@ function Details() {
                 </div>
               </div>
             )}
-            {mediaType !== "person" && (
+            {cast && cast.length > 0 && mediaType !== "person" && (
               <div className="castdiv1">
                 <div className="cast-head">
                   <h2>Top Cast</h2>
                 </div>
                 <div className="castdiv">
                   <div className="castpeopleCards">
-                    {cast &&
-                      cast.map((cast) => (
-                        <div
-                          key={cast.id}
-                          className="castpeopleCard"
-                          onClick={() => handleDetails("person", cast.id)}
-                        >
-                          <img
-                            src={
-                              cast.profile_path
-                                ? `${POSTERURL}${cast.profile_path}`
-                                : NoAvatar
-                            }
-                            alt={cast.name}
-                            className="posterimg"
-                          />
-                          <div className="personname">
-                            <p>{cast.name}</p>
-                            <div className="popularity">
-                              {`${cast.popularity.toFixed(2)}`}
-                            </div>
+                    {cast.map((cast) => (
+                      <div
+                        key={cast.id}
+                        className="castpeopleCard"
+                        onClick={() => handleDetails("person", cast.id)}
+                      >
+                        <img
+                          src={
+                            cast.profile_path
+                              ? `${POSTERURL}${cast.profile_path}`
+                              : NoAvatar
+                          }
+                          alt={cast.name}
+                          className="posterimg"
+                        />
+                        <div className="personname">
+                          <p>{cast.name}</p>
+                          <div className="popularity">
+                            {`${cast.popularity.toFixed(2)}`}
                           </div>
                         </div>
-                      ))}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
