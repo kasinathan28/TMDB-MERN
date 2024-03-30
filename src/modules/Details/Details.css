@@ -126,6 +126,7 @@
 
 .buttons button:hover {
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 .castdiv1{

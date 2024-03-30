@@ -6,7 +6,7 @@ import "./Details.css";
 import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 import NoAvatar from "../..//assets/No_avatar.png";
-import ReactPlayer from "react-player";
+import TrailerModal from "../../components/TrailerModal/TrailerModal";
 
 function Details() {
   const { id, mediaType } = useParams();
@@ -15,14 +15,27 @@ function Details() {
   const PERSON = `${process.env.REACT_APP_PERSON}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
   const [details, setDetails] = useState(null);
-  const [showFullOverview, setShowFullOverview] = useState(false);
+  const [showFullOverview, setShowFullOverview] = useState(false); // State for overview read more
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [cast, setCast] = useState([]);
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const [loading, setLoading] = useState(true);
   const [trailer, setTrailer] = useState();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
+
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -81,6 +94,7 @@ function Details() {
     navigate(`/details/${mediaType}/${id}`);
   };
 
+  // Function to calculate border style based on vote average
   const calculateBorderStyle = () => {
     if (details && details.vote_average) {
       const score = details.vote_average * 10;
@@ -95,7 +109,8 @@ function Details() {
     return { color: "yellow", width: "3px" };
   };
 
-  const GetTrailer = async () => {
+  // Function to fetch trailer
+  const getTrailer = async () => {
     try {
       const response = await axios.get(
         `${BASEURL}${mediaType}/${id}/videos`,
@@ -115,8 +130,10 @@ function Details() {
         );
 
         if (trailerVideo) {
-          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);
-          console.log(trailer);
+          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);          
+          openModal();
+
+
         } else {
           console.log("No trailer found.");
         }
@@ -131,6 +148,8 @@ function Details() {
   return (
     <div>
       <Navbar />
+      {showModal && <TrailerModal trailer={trailer} onClose={closeModal} />}
+
       <div>
         {loading ? (
           <Loader />
@@ -180,7 +199,7 @@ function Details() {
                         <button>
                           <FaSave />
                         </button>
-                        <button onClick={GetTrailer}>
+                        <button onClick={getTrailer}>
                           <FaPlay />
                         </button>
                       </div>
@@ -256,7 +275,17 @@ function Details() {
                         </div>
                         <div className="over">
                           <h2>Overview</h2>
-                          <p>{`${details.overview}`}</p>
+                          <p>
+                            {showFullOverview
+                              ? details.overview
+                              : details.overview?.substring(0, 100) ??
+                                "Overview not available"}{" "}
+                          </p>
+                          {!showFullOverview && (
+                            <a className="overviewbtn" onClick={handleReadMore}>
+                              Read More
+                            </a>
+                          )}
                         </div>
                       </>
                     )}
@@ -270,10 +299,9 @@ function Details() {
                       <button>
                         <FaSave />
                       </button>
-                      <button onClick={GetTrailer}>
-                          <FaPlay />
-                      <ReactPlayer url={trailer} controls />
-                        </button>
+                      <button onClick={getTrailer}>
+                        <FaPlay />
+                      </button>
                     </div>
                   </div>
                 </div>
