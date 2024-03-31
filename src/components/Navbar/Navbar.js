@@ -30,7 +30,7 @@ function Navbar() {
           <h1 onClick={handleHome}>TMDB</h1>
         </div>
       </div>
-      {!location.pathname.startsWith('/auth' && '/join') && (
+      {/* {!location.pathname.startsWith('/auth' && '/join') && (
         <div className={`right ${showMenu ? 'show' : ''}`}>
           {location.pathname === '/dash' ? (
             <>
@@ -49,7 +49,7 @@ function Navbar() {
         <div className='line'></div>
         <div className='line'></div>
         <div className='line'></div>
-      </div>
+      </div> */}
     </div>
   );
 }
