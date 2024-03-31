@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import wave from "../../assets/wave2.png";
 import "./Index.css";
 import Loader from "../../components/Loader/Loader";
+import Footer from "../../components/Footer/Footer";
 
 function Index() {
   const navigate = useNavigate();
@@ -268,6 +269,7 @@ function Index() {
                 ))}
               </div>
             </div>
+            {/* <Footer/> */}
           </div>
         )}
         ;

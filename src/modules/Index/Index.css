@@ -212,7 +212,7 @@
   max-width: 95%;
   padding: 10px;
   margin: auto;
-  height: auto;
+  min-height: 20vh;
   background: #032541;
   display: flex;
   overflow-x: auto;
@@ -350,7 +350,8 @@
   .trendingPeople{
     max-width:  100%;
     width: auto;
-    padding: 0px;
+    padding: 10px 0px;
+    border-radius: 0px;
   }
 
 
