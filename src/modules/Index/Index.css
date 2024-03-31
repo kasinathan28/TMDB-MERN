@@ -209,13 +209,14 @@
 }
 
 .trendingPeople {
-  max-width: 90%;
+  max-width: 95%;
   padding: 10px;
   margin: auto;
   height: auto;
   background: #032541;
   display: flex;
   overflow-x: auto;
+  border-radius: 20px;
 }
 
 .trendingPeopleCards {

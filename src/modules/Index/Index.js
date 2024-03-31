@@ -115,13 +115,13 @@ function Index() {
 
   return (
     <div className="index">
-      <Navbar />
 
       <div className="after">
         {loading ? (
           <Loader />
-        ) : (
-          <div>
+          ) : (
+            <div>
+            <Navbar />
             <div className="main">
               {randomIndex !== null && (
                 <img
