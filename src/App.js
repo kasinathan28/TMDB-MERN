@@ -12,7 +12,6 @@ function App() {
   return (
     <div>
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/join" element={<Signup />} />
@@ -21,7 +20,6 @@ function App() {
             <Route path="/search/:query" element={<Search />} />
             <Route path="/details/:mediaType/:id" element={<Details />} />
           </Routes>
-        </Suspense>
       </Router>
     </div>
   );
