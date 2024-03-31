@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
 import wave from "../../assets/wave2.png";
 import "./Index.css";
 import Loader from "../../components/Loader/Loader";
-import Footer from "../../components/Footer/Footer";
+import {
+  fetchMovies,
+  fetchTrendingTVShows,
+  fetchTrendingPeople,
+} from "../../Functions/api";
 
 function Index() {
   const navigate = useNavigate();
@@ -17,83 +20,22 @@ function Index() {
   const [trendingTVShows, setTrendingTVShows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const TOKEN = `${process.env.REACT_APP_TOKEN}`;
-  const BASEURL = `${process.env.REACT_APP_BASEURL}`;
-  const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
-  const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
   const searchInputRef = React.useRef(null);
 
   useEffect(() => {
-    const fetchMovies = async (timeFrame) => {
-      try {
-        const response = await axios.get(
-          `${BASEURL}trending/movie/${timeFrame}`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          }
-        );
-        setMovies(response.data.results.slice(0, 12));
-        if (response.data.results.length > 0) {
-          setRandomIndex(
-            Math.floor(Math.random() * response.data.results.length)
-          );
-        }
-      } catch (error) {
-        console.log("Error fetching movies:", error);
-      }
+    const fetchData = async () => {
+      const movieData = await fetchMovies(activeItem === "Today" ? "day" : "week");
+      const tvShowData = await fetchTrendingTVShows(activeItem === "Today" ? "day" : "week");
+      const peopleData = await fetchTrendingPeople(activePeopleItem === "Today" ? "day" : "week");
+
+      setMovies(movieData);
+      setTrendingTVShows(tvShowData);
+      setTrendingPeople(peopleData);
+      setLoading(false);
     };
 
-    const fetchTrendingTVShows = async (timeFrame) => {
-      try {
-        const response = await axios.get(`${BASEURL}trending/tv/${timeFrame}`, {
-          headers: {
-            accept: "application/json",
-            Authorization: `${TOKEN}`,
-          },
-        });
-        setTrendingTVShows(response.data.results.slice(0, 12));
-      } catch (error) {
-        console.log("Error fetching trending TV shows:", error);
-      }
-    };
-    fetchMovies(activeItem === "Today" ? "day" : "week");
-    fetchTrendingTVShows(activeItem === "Today" ? "day" : "week");
-    setLoading(false)
-  }, [activeItem, BASEURL, TOKEN]);
-
-  useEffect(() => {
-    const fetchTrendingPeople = async (timeFrame) => {
-      try {
-        const response = await axios.get(
-          `${BASEURL}trending/person/${timeFrame}`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          }
-        );
-        setTrendingPeople(response.data.results.slice(0, 12));
-      } catch (error) {
-        console.log("Error fetching trending people:", error);
-      }
-    };
-
-    fetchTrendingPeople(activePeopleItem === "Today" ? "day" : "week");
-  }, [activePeopleItem, BASEURL, TOKEN]);
-
-  const handleSearch = async () => {
-    if (searchQuery.trim() !== "") {
-      navigate(`/search/${searchQuery}`);
-    }
-  };
-
-  const handleDetails = (mediaType, id) => {
-    navigate(`/details/${mediaType}/${id}`);
-  };
+    fetchData();
+  }, [activeItem, activePeopleItem]);
 
   useEffect(() => {
     if (searchInputRef.current) {
@@ -114,19 +56,29 @@ function Index() {
     setRandomIndex(getNextRandomIndex());
   }, [movies, randomIndex]);
 
+  const handleSearch = async () => {
+    if (searchQuery.trim() !== "") {
+      navigate(`/search/${searchQuery}`);
+    }
+  };
+
+  const handleDetails = (mediaType, id) => {
+    navigate(`/details/${mediaType}/${id}`);
+  };
+
   return (
     <div className="index">
+      <Navbar />
 
       <div className="after">
         {loading ? (
           <Loader />
-          ) : (
-            <div>
-            <Navbar />
+        ) : (
+          <div>
             <div className="main">
               {randomIndex !== null && (
                 <img
-                  src={`${BACKDROP}${movies[randomIndex]?.backdrop_path}`}
+                  src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex]?.backdrop_path}`}
                   className="bgimg"
                   alt={`${movies.title}`}
                 />
@@ -174,58 +126,58 @@ function Index() {
               </div>
             </div>
 
-              <div className="cardctn">
-                <div className="cardctnbg">
-                  <img src={wave} alt="wave" />
-                </div>
-                {movies.map((movie, index) => (
-                  <div key={index} className="card">
-                    <img
-                      src={`${POSTERURL}${movie.poster_path}`}
-                      alt={`${movie.title}`}
-                      onClick={() => handleDetails(movie.media_type, movie.id)}
-                    />
-                    <div className="desc">
-                      <p>{movie.title}</p>
-                      <p>{movie.release_date}</p>
-                    </div>
-                    <div className="rating">
-                      {movie.vote_average.toFixed(2)}
-                    </div>
-                  </div>
-                ))}
+            <div className="cardctn">
+              <div className="cardctnbg">
+                <img src={wave} alt="wave" />
               </div>
+              {movies.map((movie, index) => (
+                <div key={index} className="card">
+                  <img
+                    src={`${process.env.REACT_APP_POSTERURL}${movie.poster_path}`}
+                    alt={`${movie.title}`}
+                    onClick={() => handleDetails(movie.media_type, movie.id)}
+                  />
+                  <div className="desc">
+                    <p>{movie.title}</p>
+                    <p>{movie.release_date}</p>
+                  </div>
+                  <div className="rating">
+                    {movie.vote_average.toFixed(2)}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-              <div className="trend">
+            <div className="trend">
               <div className="label">
                 <h2>Trending Tv Shows:</h2>
-                </div>
-                </div>  
-
-              <div className="cardctn">
-                <div className="cardctnbg">
-                  <img src={wave} alt="wave" />
-                </div>
-                {trendingTVShows.map((tvShow, index) => (
-                  <div key={index} className="card">
-                    {" "}
-                    <img
-                      src={`${POSTERURL}${tvShow.poster_path}`}
-                      alt={`${tvShow.name}`}
-                      onClick={() =>
-                        handleDetails(tvShow.media_type, tvShow.id)
-                      }
-                    />
-                    <div className="desc">
-                      <p>{tvShow.name}</p>
-                      <p>{tvShow.first_air_date}</p>
-                    </div>
-                    <div className="rating">
-                      {tvShow.vote_average.toFixed(2)}
-                    </div>
-                  </div>
-                ))}
               </div>
+            </div>
+
+            <div className="cardctn">
+              <div className="cardctnbg">
+                <img src={wave} alt="wave" />
+              </div>
+              {trendingTVShows.map((tvShow, index) => (
+                <div key={index} className="card">
+                  {" "}
+                  <img
+                    src={`${process.env.REACT_APP_POSTERURL}${tvShow.poster_path}`}
+                    alt={`${tvShow.name}`}
+                    onClick={() =>
+                      handleDetails(tvShow.media_type, tvShow.id)
+                    }
+                  />
+                  <div className="desc">
+                    <p>{tvShow.name}</p>
+                    <p>{tvShow.first_air_date}</p>
+                  </div>
+                  <div className="rating">
+                    {tvShow.vote_average.toFixed(2)}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <div className="trend">
               <div className="label">
@@ -256,7 +208,7 @@ function Index() {
                     onClick={() => handleDetails(person.media_type, person.id)}
                   >
                     <img
-                      src={`${POSTERURL}${person.profile_path}`}
+                      src={`${process.env.REACT_APP_POSTERURL}${person.profile_path}`}
                       alt={person.name}
                     />
                     <div className="personname">
@@ -269,10 +221,8 @@ function Index() {
                 ))}
               </div>
             </div>
-            {/* <Footer/> */}
           </div>
         )}
-        ;
       </div>
     </div>
   );
