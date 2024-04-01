@@ -1,23 +1,21 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useCallback } from "react";
 import wave from "../../assets/wave2.png";
 import "./Index.css";
 
-function MainDiv({ movies, randomIndex, setRandomIndex, searchQuery, setSearchQuery, handleSearch, searchInputRef, navigate, loading }) {
-  // Function to get a random index within the movies array length
-  const getRandomIndex = () => Math.floor(Math.random() * movies.length);
+function MainDiv({ movies, randomIndex, setRandomIndex, searchQuery, setSearchQuery, handleSearch, searchInputRef, }) {
+  const getRandomIndex = useCallback(() => Math.floor(Math.random() * movies.length), [movies]);
 
-  // Set randomIndex with a random value when the component mounts
+  
   useEffect(() => {
     setRandomIndex(getRandomIndex());
-  }, []);
+  }, [getRandomIndex, setRandomIndex]); 
 
-  // Update randomIndex when movies change
+  
   useEffect(() => {
     if (movies.length > 0) {
       setRandomIndex(getRandomIndex());
     }
-  }, [movies]);
+  }, [movies, getRandomIndex, setRandomIndex]); 
 
   return (
     <div>

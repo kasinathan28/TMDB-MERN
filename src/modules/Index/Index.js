@@ -25,6 +25,7 @@ function Index() {
   const [loading, setLoading] = useState(true);
   const searchInputRef = React.useRef(null);
 
+  // Fetch data effect
   useEffect(() => {
     const fetchData = async () => {
       const movieData = await fetchMovies(
@@ -44,33 +45,22 @@ function Index() {
     };
 
     fetchData();
-  }, [activeItem, activePeopleItem]);
+  }, [activeItem, activePeopleItem]); // Dependencies are activeItem and activePeopleItem
 
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
-  }, []);
+  }, []); // No dependencies, so empty dependency array
 
-  const getNextRandomIndex = () => {
-    if (movies.length === 0) return null;
-    let newIndex = randomIndex;
-    while (!movies[newIndex]?.backdrop_path) {
-      newIndex = (newIndex + 1) % movies.length;
-    }
-    return newIndex;
-  };
-
-  useEffect(() => {
-    setRandomIndex(getNextRandomIndex());
-  }, [movies]);
-
+  // Handle search function
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
       navigate(`/search/${searchQuery}`);
     }
   };
 
+  // Handle details function
   const handleDetails = (mediaType, id) => {
     navigate(`/details/${mediaType}/${id}`);
   };
