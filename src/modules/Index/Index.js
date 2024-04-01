@@ -54,7 +54,8 @@ function Index() {
 
   useEffect(() => {
     setRandomIndex(getNextRandomIndex());
-  }, [movies, randomIndex]);
+  }, [movies], randomIndex);
+
 
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
@@ -78,7 +79,7 @@ function Index() {
             <div className="main">
               {randomIndex !== null && (
                 <img
-                  src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex]?.backdrop_path}`}
+                  src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex].backdrop_path}`}
                   className="bgimg"
                   alt={`${movies.title}`}
                 />
