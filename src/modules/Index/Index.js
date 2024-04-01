@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
-import wave from "../../assets/wave2.png";
 import "./Index.css";
 import Loader from "../../components/Loader/Loader";
 import {
@@ -9,6 +8,10 @@ import {
   fetchTrendingTVShows,
   fetchTrendingPeople,
 } from "../../Functions/api";
+import MainDiv from "./MainDiv";
+import TrendingMovies from "./TrendingMovies";
+import TrendingTVShows from "./TrendingTVShows";
+import TrendingPeople from "./TrendingPeople";
 
 function Index() {
   const navigate = useNavigate();
@@ -24,9 +27,15 @@ function Index() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const movieData = await fetchMovies(activeItem === "Today" ? "day" : "week");
-      const tvShowData = await fetchTrendingTVShows(activeItem === "Today" ? "day" : "week");
-      const peopleData = await fetchTrendingPeople(activePeopleItem === "Today" ? "day" : "week");
+      const movieData = await fetchMovies(
+        activeItem === "Today" ? "day" : "week"
+      );
+      const tvShowData = await fetchTrendingTVShows(
+        activeItem === "Today" ? "day" : "week"
+      );
+      const peopleData = await fetchTrendingPeople(
+        activePeopleItem === "Today" ? "day" : "week"
+      );
 
       setMovies(movieData);
       setTrendingTVShows(tvShowData);
@@ -54,8 +63,7 @@ function Index() {
 
   useEffect(() => {
     setRandomIndex(getNextRandomIndex());
-  }, [movies], randomIndex);
-
+  }, [movies]);
 
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
@@ -69,159 +77,41 @@ function Index() {
 
   return (
     <div className="index">
-
       <div className="after">
         {loading ? (
           <Loader />
-          ) : (
-            <div>
+        ) : (
+          <div>
             <Navbar />
-            <div className="main">
-              {randomIndex !== null && (
-                <img
-                  src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex].backdrop_path}`}
-                  className="bgimg"
-                  alt={`${movies.title}`}
-                />
-              )}
+            <MainDiv
+              movies={movies}
+              randomIndex={randomIndex}
+              setRandomIndex={setRandomIndex}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              handleSearch={handleSearch}
+              searchInputRef={searchInputRef}
+              navigate={navigate}
+              loading={loading}
+            />
+            <TrendingMovies
+              movies={movies}
+              handleDetails={handleDetails}
+              activeItem={activeItem}
+              setActiveItem={setActiveItem}
+            />
 
-              <div className="message">
-                <h1>Welcome</h1>
-                <h2>Millions of Movies, TV Shows, and People To Discover.</h2>
-              </div>
-              <div className="search">
-                <input
-                  type="text"
-                  id="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for Movies, TV Shows, Person...."
-                  ref={searchInputRef}
-                  autoFocus={false}
-                />
+            <TrendingTVShows
+              trendingTVShows={trendingTVShows}
+              handleDetails={handleDetails}
+            />
 
-                <button onClick={handleSearch}>Search</button>
-              </div>
-              <div>
-                <img src={wave} alt="wave" className="wave" />
-              </div>
-            </div>
-
-            <div className="trend">
-              <div className="label">
-                <h2>Trending Movies:</h2>
-                <ul>
-                  <li
-                    className={activeItem === "Today" ? "active" : ""}
-                    onClick={() => setActiveItem("Today")}
-                  >
-                    Today
-                  </li>
-                  <li
-                    className={activeItem === "This Week" ? "active" : ""}
-                    onClick={() => setActiveItem("This Week")}
-                  >
-                    This Week
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="cardctn">
-              <div className="cardctnbg">
-                <img src={wave} alt="wave" />
-              </div>
-              {movies.map((movie, index) => (
-                <div key={index} className="card">
-                  <img
-                    src={`${process.env.REACT_APP_POSTERURL}${movie.poster_path}`}
-                    alt={`${movie.title}`}
-                    onClick={() => handleDetails(movie.media_type, movie.id)}
-                  />
-                  <div className="desc">
-                    <p>{movie.title}</p>
-                    <p>{movie.release_date}</p>
-                  </div>
-                  <div className="rating">
-                    {movie.vote_average.toFixed(2)}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="trend">
-              <div className="label">
-                <h2>Trending Tv Shows:</h2>
-              </div>
-            </div>
-
-            <div className="cardctn">
-              <div className="cardctnbg">
-                <img src={wave} alt="wave" />
-              </div>
-              {trendingTVShows.map((tvShow, index) => (
-                <div key={index} className="card">
-                  {" "}
-                  <img
-                    src={`${process.env.REACT_APP_POSTERURL}${tvShow.poster_path}`}
-                    alt={`${tvShow.name}`}
-                    onClick={() =>
-                      handleDetails(tvShow.media_type, tvShow.id)
-                    }
-                  />
-                  <div className="desc">
-                    <p>{tvShow.name}</p>
-                    <p>{tvShow.first_air_date}</p>
-                  </div>
-                  <div className="rating">
-                    {tvShow.vote_average.toFixed(2)}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="trend">
-              <div className="label">
-                <h2>Trending People:</h2>
-                <ul>
-                  <li
-                    className={activePeopleItem === "Today" ? "active" : ""}
-                    onClick={() => setActivePeopleItem("Today")}
-                  >
-                    Today
-                  </li>
-                  <li
-                    className={activePeopleItem === "This Week" ? "active" : ""}
-                    onClick={() => setActivePeopleItem("This Week")}
-                  >
-                    This Week
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="trendingPeople">
-              <div className="trendingPeopleCards">
-                {trendingPeople.map((person, index) => (
-                  <div
-                    key={index}
-                    className="trendingPeopleCard"
-                    onClick={() => handleDetails(person.media_type, person.id)}
-                  >
-                    <img
-                      src={`${process.env.REACT_APP_POSTERURL}${person.profile_path}`}
-                      alt={person.name}
-                    />
-                    <div className="personname">
-                      <p>{person.name}</p>
-                      <div className="popularity">
-                        {`${person.popularity.toFixed(2)}`}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TrendingPeople
+              trendingPeople={trendingPeople}
+              handleDetails={handleDetails}
+              activePeopleItem={activePeopleItem}
+              setActivePeopleItem={setActivePeopleItem}
+            />
           </div>
         )}
       </div>

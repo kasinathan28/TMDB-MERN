@@ -75,12 +75,13 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  padding: 10px 120px;
+  padding: 10px 40px;
 }
 
 .trend h2 {
   font-size: 2vh;
   font-weight: 400;
+  margin-left: 3%;
 }
 
 .label {
@@ -127,12 +128,12 @@
 
 .cardctn {
   max-width: 90%;
-  width: 90%;
+  width: auto;
   min-height:42vh;
   margin: auto;
   display: flex;
   flex-wrap: nowrap;
-  padding: 20px 0px;
+  padding: 20px 20px;
   overflow-x: auto;
   margin-bottom: 30px;
 }
@@ -158,7 +159,8 @@
 
 
 .card {
-  min-width: 30vh;
+  aspect-ratio: 1;
+  min-width: 28vh;
   height: 40vh;
   min-height: 26vh;
   border-radius: 12px;
@@ -169,6 +171,7 @@
   background: #fefefe;
   transition: 0.3s ease all;
 }
+
 
 .card:hover {
   cursor: pointer;
@@ -185,6 +188,10 @@
   color: #fff;
   padding: 1px;
   box-sizing: border-box;
+}
+.card .desc p{
+  padding: 0px;
+  line-height: normal;
 }
 
 .card img {
@@ -211,26 +218,28 @@
 }
 
 .trendingPeople {
-  max-width: 95%;
-  padding: 10px;
+  max-width: 100%;
+  padding: 20px 0px;
   margin: auto;
   min-height: 20vh;
   background: #032541;
   display: flex;
   overflow-x: auto;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .trendingPeopleCards {
   display: flex;
   transition: 0.3s ease all;
   gap: 30px;
-  padding: 10px 0px;
+  padding: 10px 20px;
 }
 
 .trendingPeopleCard {
-  width: 250px;
-  height: 370px;
+  width: 28vh;
+  margin-left: 10px;
+  aspect-ratio: 1;
+  height: 40vh;
   border-radius: 20px;
   position: relative;
   transition: 0.3s ease all;
@@ -309,8 +318,9 @@
   }
 
   .trend {
-    padding: 0px 20px;
+    padding: 0px 0px;
   }
+ 
 
   .label {
     width: 100%;
@@ -333,6 +343,7 @@
   .card {
     min-width: 45%;
     height: auto;
+    min-height: 26vh;
     margin: auto 10px;
   }
 
@@ -353,18 +364,24 @@
     height: 100px;
   }
 
+  .trendingPeopleCards{
+    padding: 10px 20px;
+  }
+  
   .trendingPeopleCard {
     width: 150px;
     height: 220px;
   }
 
+  
+
   .trendingPeople{
-    max-width:  100%;
-    width: auto;
+    width:  100%;
+    margin:0px;
+    width: 100%;
     padding: 10px 0px;
     border-radius: 0px;
   }
-
 
   .popularity {
     width: 15px;
