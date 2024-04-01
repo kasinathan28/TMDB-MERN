@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import wave from "../../assets/wave2.png";
 import "./Index.css";
 
 function MainDiv({ movies, randomIndex, setRandomIndex, searchQuery, setSearchQuery, handleSearch, searchInputRef, navigate, loading }) {
-  const getNextRandomIndex = () => {
-    if (movies.length === 0) return null;
-    let newIndex = randomIndex;
-    while (!movies[newIndex]?.backdrop_path) {
-      newIndex = (newIndex + 1) % movies.length;
-    }
-    return newIndex;
-  };
+  // Function to get a random index within the movies array length
+  const getRandomIndex = () => Math.floor(Math.random() * movies.length);
 
+  // Set randomIndex with a random value when the component mounts
   useEffect(() => {
-    setRandomIndex(getNextRandomIndex());
-  }, [movies, randomIndex]);
+    setRandomIndex(getRandomIndex());
+  }, []);
+
+  // Update randomIndex when movies change
+  useEffect(() => {
+    if (movies.length > 0) {
+      setRandomIndex(getRandomIndex());
+    }
+  }, [movies]);
 
   return (
     <div>
       <div className="main">
         {randomIndex !== null && (
           <img
-            src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex].backdrop_path}`}
+            src={`${process.env.REACT_APP_BACKDROP}${movies[randomIndex]?.backdrop_path}`}
             className="bgimg"
-            alt={`${movies.title}`}
+            alt={`${movies[randomIndex]?.title}`}
           />
         )}
 
