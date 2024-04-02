@@ -25,7 +25,7 @@ function Index() {
   const [loading, setLoading] = useState(true);
   const searchInputRef = React.useRef(null);
 
-  // Fetch data effect
+  
   useEffect(() => {
     const fetchData = async () => {
       const movieData = await fetchMovies(
@@ -45,22 +45,22 @@ function Index() {
     };
 
     fetchData();
-  }, [activeItem, activePeopleItem]); // Dependencies are activeItem and activePeopleItem
+  }, [activeItem, activePeopleItem]); 
 
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
-  }, []); // No dependencies, so empty dependency array
+  }, []); 
 
-  // Handle search function
+  
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
       navigate(`/search/${searchQuery}`);
     }
   };
 
-  // Handle details function
+  
   const handleDetails = (mediaType, id) => {
     navigate(`/details/${mediaType}/${id}`);
   };

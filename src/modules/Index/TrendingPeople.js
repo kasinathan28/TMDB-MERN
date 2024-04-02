@@ -31,7 +31,7 @@ function TrendingPeople({ trendingPeople, handleDetails, activePeopleItem, setAc
               onClick={() => handleDetails(person.media_type, person.id)}
             >
               <img
-                src={person.profile_path ? `${process.env.REACT_APP_POSTERURL}${person.profile_path}` : defaultProfileImage}
+                src={person.profile_path ? `https://images.tmdb.org/t/p/w300${person.profile_path}` : defaultProfileImage}
                 alt={person.name}
               />
               <div className="personname">
