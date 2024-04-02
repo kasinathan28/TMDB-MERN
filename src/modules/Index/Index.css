@@ -129,7 +129,7 @@
 .cardctn {
   max-width: 90%;
   width: auto;
-  min-height:42vh;
+  max-height:42vh;
   margin: auto;
   display: flex;
   flex-wrap: nowrap;
@@ -144,7 +144,7 @@
   width: 100%;
   align-items:center;
   justify-content: center;
-  min-height: 29vh;
+  min-height: 30vh;
 }
 
 .cardctnbg img {
@@ -160,8 +160,8 @@
 
 .card {
   aspect-ratio: 1;
-  min-width: 28vh;
-  height: 40vh;
+  min-width: 20vh;
+  height: 20vh;
   min-height: 26vh;
   border-radius: 12px;
   position: relative;
@@ -221,7 +221,7 @@
   max-width: 100%;
   padding: 20px 0px;
   margin: auto;
-  min-height: 20vh;
+  max-height: 42vh;
   background: #032541;
   display: flex;
   overflow-x: auto;
@@ -236,10 +236,10 @@
 }
 
 .trendingPeopleCard {
-  width: 28vh;
+  max-width: 28vh;
+  width: 18vh;
   margin-left: 10px;
-  aspect-ratio: 1;
-  height: 40vh;
+  height: auto;
   border-radius: 20px;
   position: relative;
   transition: 0.3s ease all;
@@ -341,9 +341,7 @@
   }
 
   .card {
-    min-width: 40%;
     height: auto;
-    min-height: 26vh;
     margin: auto 10px;
   }
 
