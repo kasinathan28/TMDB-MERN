@@ -1,5 +1,6 @@
 import React from "react";
 import "./Index.css";
+import "./Index.css";
 import wave from "../../assets/wave2.png";
 
 function TrendingTVShows({ trendingTVShows, handleDetails }) {

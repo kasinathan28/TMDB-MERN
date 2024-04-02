@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
-import "./Index.css";
 import Loader from "../../components/Loader/Loader";
+import "./Index.css";
 import {
   fetchMovies,
   fetchTrendingTVShows,
