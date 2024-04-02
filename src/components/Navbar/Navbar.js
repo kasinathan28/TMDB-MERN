@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Navbar.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const [showMenu, setShowMenu] = useState(false);
-  const location = useLocation();
+  // const [showMenu, setShowMenu] = useState(false);
+  // const location = useLocation();
   const navigate = useNavigate();
   
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+  // const toggleMenu = () => {
+  //   setShowMenu(!showMenu);
+  // };
 
-  const handleSignup = () => {
-    navigate("/join");
-  }
+  // const handleSignup = () => {
+  //   navigate("/join");
+  // }
 
-  const handleLogin = () => {
-    navigate("/auth");
-  }
+  // const handleLogin = () => {
+  //   navigate("/auth");
+  // }
 
   const handleHome = ()=>{
     navigate("/");
