@@ -106,15 +106,12 @@ function Details() {
 
   const getTrailer = async () => {
     try {
-      const response = await axios.get(
-        `${BASEURL}${mediaType}/${id}/videos`,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `${TOKEN}`,
-          },
-        }
-      );
+      const response = await axios.get(`${BASEURL}${mediaType}/${id}/videos`, {
+        headers: {
+          accept: "application/json",
+          Authorization: `${TOKEN}`,
+        },
+      });
 
       if (response.data.results && response.data.results.length > 0) {
         const trailerVideo = response.data.results.find(
@@ -148,9 +145,7 @@ function Details() {
             {details && (
               <div
                 className={`Detailsbg ${
-                  mediaType === "person" && !isLargeScreen
-                    ? "hideBackdrop"
-                    : ""
+                  mediaType === "person" && !isLargeScreen ? "hideBackdrop" : ""
                 }`}
               >
                 {!(!isLargeScreen && mediaType === "person") && (
@@ -281,20 +276,22 @@ function Details() {
                         </div>
                       </>
                     )}
-                    <div className="buttons">
-                      <button>
-                        <FaList />
-                      </button>
-                      <button>
-                        <FaHeart />
-                      </button>
-                      <button>
-                        <FaSave />
-                      </button>
-                      <button onClick={getTrailer}>
-                        <FaPlay />
-                      </button>
-                    </div>
+                    {mediaType !== "person" && (
+                      <div className="buttons">
+                        <button>
+                          <FaList />
+                        </button>
+                        <button>
+                          <FaHeart />
+                        </button>
+                        <button>
+                          <FaSave />
+                        </button>
+                        <button onClick={getTrailer}>
+                          <FaPlay />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
