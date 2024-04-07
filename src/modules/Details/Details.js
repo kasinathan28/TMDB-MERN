@@ -21,6 +21,7 @@ function Details() {
   const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const [loading, setLoading] = useState(true);
   const [trailer, setTrailer] = useState();
+  const [watchProviders, setWatchProviders] = useState([]);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -64,6 +65,18 @@ function Details() {
           setCast(creditsResponse.data.cast);
         }
         setDetails(response.data);
+
+        // Fetch watch providers data
+        const watchProvidersResponse = await axios.get(
+          `${BASEURL}${mediaType}/${id}/watch/providers`,
+          {
+            headers: {
+              accept: "application/json",
+              Authorization: `${TOKEN}`,
+            },
+          }
+        );
+        setWatchProviders(watchProvidersResponse.data);
       } catch (error) {
         console.log("Error while fetching the details", error);
       } finally {
@@ -131,6 +144,24 @@ function Details() {
       console.log("Error loading the trailer", error);
     }
   };
+
+
+  const handleWatch = () => {
+    if (watchProviders && watchProviders.results && watchProviders.results.IN) {
+      const providerLink = watchProviders.results.IN.link;
+      if (providerLink) {
+        window.location.href = providerLink;
+      } else {
+        console.log("Provider link not available.");
+      }
+    } else {
+      console.log("Watch providers data not available.");
+    }
+  };
+
+  
+
+  
 
   return (
     <div>
@@ -274,28 +305,44 @@ function Details() {
                             </a>
                           )}
                         </div>
+                        <div className="buttons">
+                          <button>
+                            <FaList />
+                          </button>
+                          <button>
+                            <FaHeart />
+                          </button>
+                          <button>
+                            <FaSave />
+                          </button>
+                          <button onClick={getTrailer}>
+                            <FaPlay />
+                          </button>
+                        </div>
                       </>
-                    )}
-                    {mediaType !== "person" && (
-                      <div className="buttons">
-                        <button>
-                          <FaList />
-                        </button>
-                        <button>
-                          <FaHeart />
-                        </button>
-                        <button>
-                          <FaSave />
-                        </button>
-                        <button onClick={getTrailer}>
-                          <FaPlay />
-                        </button>
-                      </div>
                     )}
                   </div>
                 </div>
               </div>
             )}
+{watchProviders && watchProviders.results && watchProviders.results.IN && watchProviders.results.IN.flatrate && watchProviders.results.IN.flatrate.length > 0 && (
+  <div className="watch-provider">
+    <h2>Watch Now!</h2>
+    {watchProviders.results.IN.flatrate.map((provider) => (
+      <div
+        key={provider.id}
+        onClick={handleWatch}
+        className="watch-provider-logo"
+        style={{
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,
+        }}
+      ></div>
+    ))}
+  </div>
+)}
+
+
+
             {cast && cast.length > 0 && mediaType !== "person" && (
               <div className="castdiv1">
                 <div className="cast-head">

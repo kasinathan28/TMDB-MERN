@@ -129,9 +129,37 @@
   cursor: pointer;
 }
 
-.castdiv1{
-  padding-top: 40px;
+.watch-provider {
+  max-width: 79%;
+  margin: auto;
+  align-items: center;
+  padding: 10px ;
 }
+
+.watch-provider h2 {
+  font-size: 2.5vh;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.watch-provider-item {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.watch-provider-logo {
+  width: 40px;
+  height:40px;
+  border-radius: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.watch-provider-logo:hover{
+  cursor: pointer;
+}
+
 .castdiv1 h2{
   padding-left: 200px;
   color: #fff;
@@ -333,3 +361,5 @@
     max-height: 12px;
   }
 }
+
+
