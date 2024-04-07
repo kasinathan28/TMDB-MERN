@@ -60,14 +60,6 @@ function Search() {
           acc.tv++;
         } else if (result.media_type === "person") {
           acc.person++;
-        } else if (result.media_type === "collection") {
-          acc.collection++;
-        } else if (result.media_type === "keyword") {
-          acc.keyword++;
-        } else if (result.media_type === "network") {
-          acc.network++;
-        } else if (result.media_type === "company") {
-          acc.company++;
         }
         return acc;
       },
@@ -146,38 +138,7 @@ function Search() {
                 >
                   <h3>People</h3> <h4> {categoryCounts.person}</h4>
                 </div>
-                <div
-                  className={`category-box ${
-                    activeCategory === "collection" ? "active-category" : ""
-                  }`}
-                  onClick={() => handleCategoryClick("collection")}
-                >
-                  <h3>Collections </h3> <h4>{categoryCounts.collection}</h4>
-                </div>
-                <div
-                  className={`category-box ${
-                    activeCategory === "keyword" ? "active-category" : ""
-                  }`}
-                  onClick={() => handleCategoryClick("keyword")}
-                >
-                  <h3>Keywords </h3> <h4>{categoryCounts.keyword}</h4>
-                </div>
-                <div
-                  className={`category-box ${
-                    activeCategory === "network" ? "active-category" : ""
-                  }`}
-                  onClick={() => handleCategoryClick("network")}
-                >
-                  <h3>Networks</h3> <h4> {categoryCounts.network}</h4>
-                </div>
-                <div
-                  className={`category-box ${
-                    activeCategory === "company" ? "active-category" : ""
-                  }`}
-                  onClick={() => handleCategoryClick("company")}
-                >
-                  <h3>Companies </h3> <h4>{categoryCounts.company}</h4>
-                </div>
+   
               </div>
             </div>
             <div className="results-section">
