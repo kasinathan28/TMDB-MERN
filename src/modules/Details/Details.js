@@ -36,7 +36,25 @@ function Details() {
   const closeModal = () => {
     setShowModal(false);
   };
-
+  useEffect(() => {
+    const setBG = () => {
+      try {
+        if (mediaType === "person") {
+          document.body.style.backgroundColor = "#032541e1";
+        } else {
+          document.body.style.backgroundColor = ""; 
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    setBG();
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, [mediaType]); 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
