@@ -3,22 +3,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Loader from "../../components/Loader/Loader";
 import "./Details.css";
-import axios from "axios";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 import NoAvatar from "../..//assets/No_avatar.png";
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
+import { fetchDetails, fetchWatchProviders, fetchVideos, getTrailer, handleWatch } from "../../Functions/api";
 
 function Details() {
   const { id, mediaType } = useParams();
-  const TOKEN = `${process.env.REACT_APP_TOKEN}`;
-  const BACKDROP = `${process.env.REACT_APP_BACKDROP}`;
-  const PERSON = `${process.env.REACT_APP_PERSON}`;
   const BASEURL = `${process.env.REACT_APP_BASEURL}`;
+  const TOKEN = `${process.env.REACT_APP_TOKEN}`;
+  const BACKDROP = process.env.REACT_APP_BACKDROP;
+  const POSTERURL = process.env.REACT_APP_POSTERURL;
   const [details, setDetails] = useState(null);
   const [showFullOverview, setShowFullOverview] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [cast, setCast] = useState([]);
-  const POSTERURL = `${process.env.REACT_APP_POSTERURL}`;
   const [loading, setLoading] = useState(true);
   const [trailer, setTrailer] = useState();
   const [watchProviders, setWatchProviders] = useState([]);
@@ -34,57 +33,26 @@ function Details() {
   };
 
   useEffect(() => {
-    const fetchDetails = async () => {
+    const fetchData = async () => {
       try {
-        let response;
-        if (mediaType === "person") {
-          response = await axios.get(`${PERSON}${id}`, {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          });
-        } else {
-          response = await axios.get(`${BASEURL}${mediaType}/${id}`, {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          });
-
-          const creditsResponse = await axios.get(
-            `${BASEURL}${mediaType}/${id}/credits`,
-            {
-              headers: {
-                accept: "application/json",
-                Authorization: `${TOKEN}`,
-              },
-            }
-          );
-
-          setCast(creditsResponse.data.cast);
-        }
-        setDetails(response.data);
-
-        // Fetch watch providers data
-        const watchProvidersResponse = await axios.get(
-          `${BASEURL}${mediaType}/${id}/watch/providers`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: `${TOKEN}`,
-            },
-          }
-        );
-        setWatchProviders(watchProvidersResponse.data);
+        setLoading(true);
+        const [detailsData, watchProvidersData, videosData] = await Promise.all([
+          fetchDetails(id, mediaType),
+          fetchWatchProviders(id, mediaType),
+          fetchVideos(id, mediaType),
+        ]);
+        setDetails(detailsData.details);
+        setCast(detailsData.cast);
+        setWatchProviders(watchProvidersData);
+        // handle videos data if needed
       } catch (error) {
-        console.log("Error while fetching the details", error);
+        console.log("Error while fetching data", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchDetails();
-  }, [id, mediaType, TOKEN]);
+    fetchData();
+  }, [id, mediaType]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -117,52 +85,10 @@ function Details() {
     return { color: "yellow", width: "3px" };
   };
 
-  const getTrailer = async () => {
-    try {
-      const response = await axios.get(`${BASEURL}${mediaType}/${id}/videos`, {
-        headers: {
-          accept: "application/json",
-          Authorization: `${TOKEN}`,
-        },
-      });
-
-      if (response.data.results && response.data.results.length > 0) {
-        const trailerVideo = response.data.results.find(
-          (video) => video.type === "Trailer"
-        );
-
-        if (trailerVideo) {
-          setTrailer(`https://www.youtube.com/watch?v=${trailerVideo.key}`);
-          openModal();
-        } else {
-          console.log("No trailer found.");
-        }
-      } else {
-        console.log("No videos found in the response.");
-      }
-    } catch (error) {
-      console.log("Error loading the trailer", error);
-    }
+  const handleGetTrailer = () => {
+    getTrailer(BASEURL, mediaType, id, TOKEN, setTrailer, openModal);
   };
-
-
-  const handleWatch = () => {
-    if (watchProviders && watchProviders.results && watchProviders.results.IN) {
-      const providerLink = watchProviders.results.IN.link;
-      if (providerLink) {
-        window.location.href = providerLink;
-      } else {
-        console.log("Provider link not available.");
-      }
-    } else {
-      console.log("Watch providers data not available.");
-    }
-  };
-
   
-
-  
-
   return (
     <div>
       <Navbar />
@@ -217,7 +143,7 @@ function Details() {
                         <button>
                           <FaSave />
                         </button>
-                        <button onClick={getTrailer}>
+                        <button onClick={handleGetTrailer}>
                           <FaPlay />
                         </button>
                       </div>
@@ -315,7 +241,7 @@ function Details() {
                           <button>
                             <FaSave />
                           </button>
-                          <button onClick={getTrailer}>
+                          <button onClick={handleGetTrailer}>
                             <FaPlay />
                           </button>
                         </div>
@@ -325,23 +251,25 @@ function Details() {
                 </div>
               </div>
             )}
-{watchProviders && watchProviders.results && watchProviders.results.IN && watchProviders.results.IN.flatrate && watchProviders.results.IN.flatrate.length > 0 && (
-  <div className="watch-provider">
-    <h2>Watch Now!</h2>
-    {watchProviders.results.IN.flatrate.map((provider) => (
-      <div
-        key={provider.id}
-        onClick={handleWatch}
-        className="watch-provider-logo"
-        style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,
-        }}
-      ></div>
-    ))}
-  </div>
-)}
-
-
+            {watchProviders &&
+              watchProviders.results &&
+              watchProviders.results.IN &&
+              watchProviders.results.IN.flatrate &&
+              watchProviders.results.IN.flatrate.length > 0 && (
+                <div className="watch-provider">
+                  <h2>Watch Now!</h2>
+                  {watchProviders.results.IN.flatrate.map((provider) => (
+                    <div
+                      key={provider.id}
+                      onClick={handleWatch}
+                      className="watch-provider-logo"
+                      style={{
+                        backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              )}
 
             {cast && cast.length > 0 && mediaType !== "person" && (
               <div className="castdiv1">
