@@ -19,7 +19,7 @@
 
 .center {
   width: 80%;
-  height:auto;
+  max-height:80%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -163,6 +163,7 @@
 .logo-ctn{
   display: flex;
   gap: 20px;
+  overflow-x: auto;
 }
 .castdiv1 h2{
   padding-left: 200px;
