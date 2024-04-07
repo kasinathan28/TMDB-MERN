@@ -6,7 +6,12 @@ import "./Details.css";
 import { FaList, FaHeart, FaSave, FaPlay } from "react-icons/fa";
 import NoAvatar from "../..//assets/No_avatar.png";
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
-import { fetchDetails, fetchWatchProviders, fetchVideos, getTrailer, handleWatch } from "../../Functions/api";
+import {
+  fetchDetails,
+  fetchWatchProviders,
+  getTrailer,
+  handleWatch,
+} from "../../Functions/api";
 
 function Details() {
   const { id, mediaType } = useParams();
@@ -36,14 +41,15 @@ function Details() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [detailsData, watchProvidersData, videosData] = await Promise.all([
-          fetchDetails(id, mediaType),
-          fetchWatchProviders(id, mediaType),
-          fetchVideos(id, mediaType),
-        ]);
+        const detailsData = await fetchDetails(id, mediaType);
         setDetails(detailsData.details);
         setCast(detailsData.cast);
-        setWatchProviders(watchProvidersData);
+
+        if (mediaType !== "person") {
+          const watchProvidersData = await fetchWatchProviders(id, mediaType);
+          setWatchProviders(watchProvidersData);
+        }
+
         // handle videos data if needed
       } catch (error) {
         console.log("Error while fetching data", error);
@@ -71,6 +77,11 @@ function Details() {
     navigate(`/details/${mediaType}/${id}`);
   };
 
+  const handleWatchLink = () => {
+    console.log("WATCH CALLED..");
+    handleWatch(watchProviders);
+  };
+
   const calculateBorderStyle = () => {
     if (details && details.vote_average) {
       const score = details.vote_average * 10;
@@ -88,7 +99,7 @@ function Details() {
   const handleGetTrailer = () => {
     getTrailer(BASEURL, mediaType, id, TOKEN, setTrailer, openModal);
   };
-  
+
   return (
     <div>
       <Navbar />
@@ -166,12 +177,12 @@ function Details() {
                                 "Biography not available"}{" "}
                           </p>
                           {!showFullOverview && (
-                            <a
+                            <p
                               className="biographybtn"
                               onClick={handleReadMore}
                             >
                               Read More
-                            </a>
+                            </p>
                           )}
                         </div>
                       </>
@@ -226,9 +237,9 @@ function Details() {
                                 "Overview not available"}{" "}
                           </p>
                           {!showFullOverview && (
-                            <a className="overviewbtn" onClick={handleReadMore}>
+                            <p className="overviewbtn" onClick={handleReadMore}>
                               Read More
-                            </a>
+                            </p>
                           )}
                         </div>
                         <div className="buttons">
@@ -251,7 +262,8 @@ function Details() {
                 </div>
               </div>
             )}
-            {watchProviders &&
+            {mediaType !== "person" &&
+              watchProviders &&
               watchProviders.results &&
               watchProviders.results.IN &&
               watchProviders.results.IN.flatrate &&
@@ -261,7 +273,7 @@ function Details() {
                   {watchProviders.results.IN.flatrate.map((provider) => (
                     <div
                       key={provider.id}
-                      onClick={handleWatch}
+                      onClick={handleWatchLink}
                       className="watch-provider-logo"
                       style={{
                         backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,

@@ -147,7 +147,7 @@ export const getTrailer = async (BASEURL, mediaType, id, TOKEN, setTrailer, open
   }
 };
 
-export const handleWatch = () => {
+export const handleWatch = (watchProviders) => {
   if (watchProviders && watchProviders.results && watchProviders.results.IN) {
     const providerLink = watchProviders.results.IN.link;
     if (providerLink) {
