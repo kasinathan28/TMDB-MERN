@@ -160,6 +160,10 @@
   cursor: pointer;
 }
 
+.logo-ctn{
+  display: flex;
+  gap: 20px;
+}
 .castdiv1 h2{
   padding-left: 200px;
   color: #fff;

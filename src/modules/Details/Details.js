@@ -288,16 +288,18 @@ function Details() {
               watchProviders.results.IN.flatrate.length > 0 && (
                 <div className="watch-provider">
                   <h2>Watch Now!</h2>
+                  <div className="logo-ctn">
                   {watchProviders.results.IN.flatrate.map((provider) => (
                     <div
-                      key={provider.id}
-                      onClick={handleWatchLink}
-                      className="watch-provider-logo"
-                      style={{
-                        backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,
-                      }}
+                    key={provider.id}
+                    onClick={handleWatchLink}
+                    className="watch-provider-logo"
+                    style={{
+                      backgroundImage: `url(https://image.tmdb.org/t/p/original${provider.logo_path})`,
+                    }}
                     ></div>
                   ))}
+                  </div>
                 </div>
               )}
 
